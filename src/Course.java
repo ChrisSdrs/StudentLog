@@ -1,21 +1,21 @@
 public class Course {
-    private int courseId;
+    private String courseId;
     private String title;
     private int semester;
 
     // Constructor
-    public Course(int courseId, String title, int semester) {
+    public Course(String courseId, String title, int semester) {
         this.courseId = courseId;
         this.title = title;
         this.semester = semester;
     }
 
     // Accessor methods (getters and setters)
-    public int getCourseId() {
+    public String getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
 

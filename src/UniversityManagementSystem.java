@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,48 @@ public class UniversityManagementSystem {
         courses = new ArrayList<>();
         teacherCourses = new HashMap<>();
         studentGrades = new HashMap<>();
+    }
+
+    public Object findById(String givenId, String searchKey, String data) {
+        String[] lines = data.split("\n");
+        for (String line : lines) {
+            // Student
+            if (line.startsWith(searchKey) && searchKey.equals("Student")) {
+                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String id;
+                id = parts[1].substring(4).trim();  // Index 1 contains the ID
+
+                if (id.equals(givenId)) {
+                    String name = parts[2].substring(6).trim();  // Index 2 contains the Name
+                    String email = parts[3].substring(7).trim();  // Index 3 contains the Email
+                    String phoneNumber = parts[4].substring(8).trim();  // Index 4 contains the Phone number
+                    int semester;
+                    try {
+                        semester = Integer.parseInt(parts[5].substring(10).trim());  // Index 5 contains the Semester
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error parsing student semester: " + e.getMessage());
+                        e.printStackTrace();
+                        continue; // Skip this line if grade is not a valid integer
+                    }
+                    return new Student(id, name, email, phoneNumber, semester);
+                }
+            }
+            // Teacher
+            if (line.startsWith(searchKey) && searchKey.equals("Teacher")) {
+                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String id;
+                id = parts[1].substring(4).trim();  // Index 1 contains the ID
+
+                if (id.equals(givenId)) {
+                    String name = parts[2].substring(6).trim();  // Index 2 contains the Name
+                    String email = parts[3].substring(7).trim();  // Index 3 contains the Email
+                    String phoneNumber = parts[4].substring(8).trim();  // Index 4 contains the Phone number
+                    String specialization = parts[5].substring(16).trim();  // Index 5 contains the Specialization
+                    return new Teacher(id, name, email, phoneNumber, specialization);
+                }
+            }
+        }
+        return null; // Student with the given ID not found
     }
 
     // Add student
@@ -90,27 +133,27 @@ public class UniversityManagementSystem {
         return 0.0;
     }
 
-    public Teacher findTeacherById(int teacherId) {
+    public Teacher findTeacherById(String teacherId) {
         for (Teacher teacher : teachers) {
-            if (teacher.getTeacherId() == teacherId) {
+            if (teacher.getTeacherId().equals(teacherId)) {
                 return teacher;
             }
         }
         return null;
     }
 
-    public Course findCourseById(int courseId) {
+    public Course findCourseById(String courseId) {
         for (Course course : courses) {
-            if (course.getCourseId() == courseId) {
+            if (course.getCourseId().equals(courseId)) {
                 return course;
             }
         }
         return null;
     }
 
-    public Student findStudentById(int studentId) {
+    public Student findStudentById(String studentId) {
         for (Student student : students) {
-            if (student.getStudentId() == studentId) {
+            if (student.getStudentId().equals(studentId)) {
                 return student;
             }
         }
@@ -158,21 +201,91 @@ public class UniversityManagementSystem {
         return totalGrade / numOfStudents;
     }
 
-    public void dataInject(){
+    public void displayStudent(Student student) {
+        if (student != null) {
+            System.out.println("Student Details:");
+            System.out.println("ID: " + student.getStudentId());
+            System.out.println("Name: " + student.getFullName());
+            System.out.println("Email: " + student.getEmail());
+            System.out.println("Phone Number: " + student.getPhoneNumber());
+            System.out.println("Semester: " + student.getSemester());
+            System.out.println("------------------------");
+        } else {
+            System.out.println("Student not found with the given ID.\n");
+        }
+    }
+
+    public void displayTeacher(Teacher teacher) {
+        if (teacher != null) {
+            System.out.println("Teacher Details:");
+            System.out.println("ID: " + teacher.getTeacherId());
+            System.out.println("Name: " + teacher.getFullName());
+            System.out.println("Email: " + teacher.getEmail());
+            System.out.println("Phone Number: " + teacher.getPhoneNumber());
+            System.out.println("Specialization: " + teacher.getSpecialization());
+            System.out.println("------------------------");
+        } else {
+            System.out.println("Teacher not found with the given ID.\n");
+        }
+    }
+
+    public static void saveData(String filename, String[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (String line : data) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String loadData(String filename) {
+        StringBuilder data = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                data.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data.toString();
+    }
+
+    public void dataInject() {
         // Creating sample data for students
-        Student student1 = new Student(1, "John Doe", "john.doe@example.com", "1234567890", 3);
-        Student student2 = new Student(2, "Jane Smith", "jane.smith@example.com", "9876543210", 4);
-        Student student3 = new Student(3, "David Johnson", "david.johnson@example.com", "5555555555", 2);
+        Student student1 = new Student("1", "John Doe", "john.doe@example.com", "1234567890", 3);
+        Student student2 = new Student("2", "Jane Smith", "jane.smith@example.com", "9876543210", 4);
+        Student student3 = new Student("3", "David Johnson", "david.johnson@example.com", "5555555555", 2);
 
         // Creating sample data for teachers
-        Teacher teacher1 = new Teacher(1, "Smith Jones", "prof.smith@example.com", "1111111111", "Computer Science");
-        Teacher teacher2 = new Teacher(2, "Johnson Smiths", "prof.johnson@example.com", "2222222222", "Mathematics");
-        Teacher teacher3 = new Teacher(3, "Lee Evans", "prof.lee@example.com", "3333333333", "Physics");
+        Teacher teacher1 = new Teacher("1", "Smith Jones", "prof.smith@example.com", "1111111111", "Computer Science");
+        Teacher teacher2 = new Teacher("2", "Johnson Smiths", "prof.johnson@example.com", "2222222222", "Mathematics");
+        Teacher teacher3 = new Teacher("3", "Lee Evans", "prof.lee@example.com", "3333333333", "Physics");
 
         // Creating sample data for courses
-        Course course1 = new Course(1, "Introduction to Programming", 2);
-        Course course2 = new Course(2, "Calculus", 3);
-        Course course3 = new Course(3, "Physics Mechanics", 1);
+        Course course1 = new Course("1", "Introduction to Programming", 2);
+        Course course2 = new Course("2", "Calculus", 3);
+        Course course3 = new Course("3", "Physics Mechanics", 1);
+
+
+        // Convert the data to string representation
+        String[] data = {
+                student1.toString(),
+                student2.toString(),
+                student3.toString(),
+                teacher1.toString(),
+                teacher2.toString(),
+                teacher3.toString(),
+                course1.toString(),
+                course2.toString(),
+                course3.toString()
+        };
+
+        // Save the data to a file
+        saveData("data.txt", data);
+
 
         // Adding students to the university management system
         addStudent(student1);
