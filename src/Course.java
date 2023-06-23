@@ -10,6 +10,11 @@ public class Course {
         this.semester = semester;
     }
 
+    @Override
+    public String toString () {
+        return "Course: ID=" + courseId + ", Title=" + title + ", Semester=" + semester;
+    }
+
     // Accessor methods (getters and setters)
     public String getCourseId() {
         return courseId;

@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UniversityManagementSystem {
     private List<Student> students;
@@ -19,62 +16,93 @@ public class UniversityManagementSystem {
         studentGrades = new HashMap<>();
     }
 
-    public Object findById(String givenId, String searchKey, String data) {
+    public Student findStudentById(String studentId, String data) {
         String[] lines = data.split("\n");
         for (String line : lines) {
             // Student
-            if (line.startsWith(searchKey) && searchKey.equals("Student")) {
+            if (line.startsWith("Student")) {
                 String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
-                String id;
-                id = parts[1].substring(4).trim();  // Index 1 contains the ID
+                String id = parts[1].substring(4).trim();  // Index 1 contains the ID
 
-                if (id.equals(givenId)) {
+                if (id.equals(studentId)) {
                     String name = parts[2].substring(6).trim();  // Index 2 contains the Name
                     String email = parts[3].substring(7).trim();  // Index 3 contains the Email
-                    String phoneNumber = parts[4].substring(8).trim();  // Index 4 contains the Phone number
+                    String phoneNumber = parts[4].substring(7).trim();  // Index 4 contains the Phone number
                     int semester;
                     try {
                         semester = Integer.parseInt(parts[5].substring(10).trim());  // Index 5 contains the Semester
                     } catch (NumberFormatException e) {
                         System.out.println("Error parsing student semester: " + e.getMessage());
                         e.printStackTrace();
-                        continue; // Skip this line if grade is not a valid integer
+                        continue; // Skip this line if semester is not a valid integer
                     }
                     return new Student(id, name, email, phoneNumber, semester);
-                }
-            }
-            // Teacher
-            if (line.startsWith(searchKey) && searchKey.equals("Teacher")) {
-                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
-                String id;
-                id = parts[1].substring(4).trim();  // Index 1 contains the ID
-
-                if (id.equals(givenId)) {
-                    String name = parts[2].substring(6).trim();  // Index 2 contains the Name
-                    String email = parts[3].substring(7).trim();  // Index 3 contains the Email
-                    String phoneNumber = parts[4].substring(8).trim();  // Index 4 contains the Phone number
-                    String specialization = parts[5].substring(16).trim();  // Index 5 contains the Specialization
-                    return new Teacher(id, name, email, phoneNumber, specialization);
                 }
             }
         }
         return null; // Student with the given ID not found
     }
 
-    // Add student
-    public void addStudent(Student student) {
-        students.add(student);
+    public Teacher findTeacherById(String teacherId, String data) {
+        String[] lines = data.split("\n");
+        for (String line : lines) {
+            // Teacher
+            if (line.startsWith("Teacher")) {
+                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String id;
+                id = parts[1].substring(4).trim();  // Index 1 contains the ID
+
+                if (id.equals(teacherId)) {
+                    String name = parts[2].substring(6).trim();  // Index 2 contains the Name
+                    String email = parts[3].substring(7).trim();  // Index 3 contains the Email
+                    String phoneNumber = parts[4].substring(7).trim();  // Index 4 contains the Phone number
+                    String specialization = parts[5].substring(16).trim();  // Index 5 contains the Specialization
+                    return new Teacher(id, name, email, phoneNumber, specialization);
+                }
+            }
+        }
+        return null; // Teacher with the given ID not found
     }
 
-    // Add  teacher
-    public void addTeacher(Teacher teacher) {
-        teachers.add(teacher);
+    public Course findCourseById(String courseId, String data) {
+        String[] lines = data.split("\n");
+        for (String line : lines) {
+            if (line.startsWith("Course")) {
+                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String id;
+                id = parts[1].substring(4).trim();  // Index 1 contains the ID
+
+                if (id.equals(courseId)) {
+                    String title = parts[2].substring(7).trim();  // Index 3 contains the Title
+                    int semester;
+                    try {
+                        semester = Integer.parseInt(parts[3].substring(10).trim());  // Index 5 contains the Semester
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error parsing student semester: " + e.getMessage());
+                        e.printStackTrace();
+                        continue; // Skip this line if semester is not a valid integer
+                    }
+                    return new Course(id, title, semester);
+                }
+            }
+        }
+        return null; // Course with the given ID not found
     }
 
-    // Add course
-    public void addCourse(Course course) {
-        courses.add(course);
-    }
+//    // Add student
+//    public void addStudent(Student student) {
+//        students.add(student);
+//    }
+//
+//    // Add  teacher
+//    public void addTeacher(Teacher teacher) {
+//        teachers.add(teacher);
+//    }
+//
+//    // Add course
+//    public void addCourse(Course course) {
+//        courses.add(course);
+//    }
 
     // Assign course to teacher
     public void assignCourseToTeacher(Teacher teacher, Course course) {
@@ -133,32 +161,32 @@ public class UniversityManagementSystem {
         return 0.0;
     }
 
-    public Teacher findTeacherById(String teacherId) {
-        for (Teacher teacher : teachers) {
-            if (teacher.getTeacherId().equals(teacherId)) {
-                return teacher;
-            }
-        }
-        return null;
-    }
+//    public Teacher findTeacherById(String teacherId) {
+//        for (Teacher teacher : teachers) {
+//            if (teacher.getTeacherId().equals(teacherId)) {
+//                return teacher;
+//            }
+//        }
+//        return null;
+//    }
 
-    public Course findCourseById(String courseId) {
-        for (Course course : courses) {
-            if (course.getCourseId().equals(courseId)) {
-                return course;
-            }
-        }
-        return null;
-    }
+//    public Course findCourseById(String courseId) {
+//        for (Course course : courses) {
+//            if (course.getCourseId().equals(courseId)) {
+//                return course;
+//            }
+//        }
+//        return null;
+//    }
 
-    public Student findStudentById(String studentId) {
-        for (Student student : students) {
-            if (student.getStudentId().equals(studentId)) {
-                return student;
-            }
-        }
-        return null;
-    }
+//    public Student findStudentById(String studentId) {
+//        for (Student student : students) {
+//            if (student.getStudentId().equals(studentId)) {
+//                return student;
+//            }
+//        }
+//        return null;
+//    }
 
     public void addGrade(Student student, Course course, double grade) {
         student.addGrade(course, grade);
@@ -215,6 +243,71 @@ public class UniversityManagementSystem {
         }
     }
 
+    public void addStudent(Scanner scanner) {
+        System.out.print("Student ID: ");
+        String studentId = scanner.next();
+        scanner.nextLine(); // Consume the newline character
+        System.out.print("Full name: ");
+        String studentName = scanner.next() + scanner.nextLine();
+        System.out.print("E-mail: ");
+        String studentEmail = scanner.nextLine();
+        System.out.print("Phone Number: ");
+        String studentPhone = scanner.nextLine();
+        System.out.print("Semester: ");
+        int semester = scanner.nextInt();
+
+        Student newStudent = new Student(studentId, studentName, studentEmail, studentPhone, semester);
+
+        // Read existing data from the file
+        String dataToAdd = loadData("data.txt");
+
+        // Check if the student ID already exists
+        if (findStudentById(newStudent.getStudentId(), dataToAdd) != null) {
+            System.out.println("Student with the same ID already exists.\n");
+            return;
+        }
+
+        // Append new student details to the data
+        dataToAdd += newStudent.toString() + "\n";
+
+        // Write the updated data back to the file
+        saveData("data.txt", dataToAdd.split("\n"));
+
+        System.out.println("Student added successfully.\n");
+    }
+
+    public void deleteStudentById(Scanner scanner) {
+        System.out.print("Enter the student ID to delete: ");
+        String studentId = scanner.next();
+
+        // Read the contents of the file
+        String[] data = loadDataAsArray("data.txt");
+
+        // Delete the student from the data
+        String[] updatedData = deleteStudent(studentId, data);
+
+        // Write the updated data back to the file
+        saveData("data.txt", updatedData);
+
+        System.out.println("Student with ID " + studentId + " has been deleted.");
+    }
+
+    public static String[] deleteStudent(String studentId, String[] data) {
+        StringBuilder newData = new StringBuilder();
+        for (String line : data) {
+            if (line.startsWith("Student")) {
+                String[] parts = line.split(":|,");
+                String id = parts[1].substring(4).trim();
+                if (!id.equals(studentId)) {
+                    newData.append(line).append("\n");
+                }
+            } else {
+                newData.append(line).append("\n");
+            }
+        }
+        return newData.toString().split("\n");
+    }
+
     public void displayTeacher(Teacher teacher) {
         if (teacher != null) {
             System.out.println("Teacher Details:");
@@ -229,7 +322,143 @@ public class UniversityManagementSystem {
         }
     }
 
-    public static void saveData(String filename, String[] data) {
+    public void addTeacher(Scanner scanner) {
+        System.out.print("Teacher ID: ");
+        String teacherId = scanner.next();
+        System.out.print("Full name: ");
+        String teacherName = scanner.next() + scanner.nextLine();
+        System.out.print("E-mail: ");
+        String teacherEmail = scanner.next();
+        System.out.print("Phone Number: ");
+        String teacherPhone = scanner.next();
+        System.out.print("Specialty: ");
+        String teacherSpecialty = scanner.next();
+
+        Teacher newTeacher = new Teacher(teacherId, teacherName, teacherEmail, teacherPhone, teacherSpecialty);
+
+        // Read existing data from the file
+        String dataToAdd = loadData("data.txt");
+
+        // Check if the teacher ID already exists
+        if (findTeacherById(newTeacher.getTeacherId(), dataToAdd) != null) {
+            System.out.println("Teacher with the same ID already exists.\n");
+            return;
+        }
+
+        // Append new teacher details to the data
+        dataToAdd += newTeacher.toString() + "\n";
+
+        // Write the updated data back to the file
+        saveData("data.txt", dataToAdd.split("\n"));
+
+        System.out.println("Teacher added successfully.\n");
+    }
+
+    public void deleteTeacherById(Scanner scanner) {
+        System.out.print("Enter the teacher ID to delete: ");
+        String teacherId = scanner.next();
+
+        // Read the contents of the file
+        String[] data = loadDataAsArray("data.txt");
+
+        // Delete the teacher from the data
+        String[] updatedData = deleteTeacher(teacherId, data);
+
+        // Write the updated data back to the file
+        saveData("data.txt", updatedData);
+
+        System.out.println("Teacher with ID " + teacherId + " has been deleted.");
+    }
+
+    public static String[] deleteTeacher(String teacherId, String[] data) {
+        StringBuilder newData = new StringBuilder();
+        for (String line : data) {
+            if (line.startsWith("Teacher")) {
+                String[] parts = line.split(":|,");
+                String id = parts[1].substring(4).trim();
+                if (!id.equals(teacherId)) {
+                    newData.append(line).append("\n");
+                }
+            } else {
+                newData.append(line).append("\n");
+            }
+        }
+        return newData.toString().split("\n");
+    }
+
+    public void displayCourse(Course course) {
+        if (course != null) {
+            System.out.println("Course Details:");
+            System.out.println("ID: " + course.getCourseId());
+            System.out.println("Title: " + course.getTitle());
+            System.out.println("Semester: " + course.getSemester());
+            System.out.println("------------------------");
+        } else {
+            System.out.println("Teacher not found with the given ID.\n");
+        }
+    }
+
+    public void addCourse(Scanner scanner) {
+        System.out.print("Course ID: ");
+        String courseId = scanner.next();
+        System.out.print("Title: ");
+        String courseTitle = scanner.next() + scanner.nextLine();
+        System.out.print("Semester: ");
+        int courseSemester = scanner.nextInt();
+
+        Course newCourse = new Course(courseId, courseTitle, courseSemester);
+
+        // Read existing data from the file
+        String dataToAdd = loadData("data.txt");
+
+        // Check if the course ID already exists
+        if (findTeacherById(newCourse.getCourseId(), dataToAdd) != null) {
+            System.out.println("Course with the same ID already exists.\n");
+            return;
+        }
+
+        // Append new course details to the data
+        dataToAdd += newCourse.toString() + "\n";
+
+        // Write the updated data back to the file
+        saveData("data.txt", dataToAdd.split("\n"));
+
+        System.out.println("Course added successfully.\n");
+    }
+
+    public void deleteCourseById(Scanner scanner) {
+        System.out.print("Enter the course ID to delete: ");
+        String courseId = scanner.next();
+
+        // Read the contents of the file
+        String[] data = loadDataAsArray("data.txt");
+
+        // Delete the course from the data
+        String[] updatedData = deleteCourse(courseId, data);
+
+        // Write the updated data back to the file
+        saveData("data.txt", updatedData);
+
+        System.out.println("Course with ID " + courseId + " has been deleted.");
+    }
+
+    public static String[] deleteCourse(String courseId, String[] data) {
+        StringBuilder newData = new StringBuilder();
+        for (String line : data) {
+            if (line.startsWith("Course")) {
+                String[] parts = line.split(":|,");
+                String id = parts[1].substring(4).trim();
+                if (!id.equals(courseId)) {
+                    newData.append(line).append("\n");
+                }
+            } else {
+                newData.append(line).append("\n");
+            }
+        }
+        return newData.toString().split("\n");
+    }
+
+    public void saveData(String filename, String[] data) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (String line : data) {
                 writer.write(line);
@@ -239,6 +468,31 @@ public class UniversityManagementSystem {
             e.printStackTrace();
         }
     }
+
+//    public void saveStudentGradesToFile(Map<Student, Map<Course, Double>> studentGrades, String filename) {
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+//            for (Map.Entry<Student, Map<Course, Double>> entry : studentGrades.entrySet()) {
+//                Student student = entry.getKey();
+//                Map<Course, Double> grades = entry.getValue();
+//
+//                // Write student details
+//                writer.write(student.toString());
+//                writer.newLine();
+//
+//                // Write course grades
+//                for (Map.Entry<Course, Double> gradeEntry : grades.entrySet()) {
+//                    Course course = gradeEntry.getKey();
+//                    Double grade = gradeEntry.getValue();
+//                    writer.write(course.toString() + "," + grade);
+//                    writer.newLine();
+//                }
+//            }
+//            System.out.println("Student grades saved to file: " + filename);
+//        } catch (IOException e) {
+//            System.out.println("An error occurred while saving student grades: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
 
     public String loadData(String filename) {
         StringBuilder data = new StringBuilder();
@@ -251,6 +505,21 @@ public class UniversityManagementSystem {
             e.printStackTrace();
         }
         return data.toString();
+    }
+
+    public static String[] loadDataAsArray(String filename) {
+        List<String> lines = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lines.toArray(new String[0]);
     }
 
     public void dataInject() {
@@ -287,20 +556,20 @@ public class UniversityManagementSystem {
         saveData("data.txt", data);
 
 
-        // Adding students to the university management system
-        addStudent(student1);
-        addStudent(student2);
-        addStudent(student3);
-
-        // Adding teachers to the university management system
-        addTeacher(teacher1);
-        addTeacher(teacher2);
-        addTeacher(teacher3);
-
-        // Adding courses to the university management system
-        addCourse(course1);
-        addCourse(course2);
-        addCourse(course3);
+//        // Adding students to the university management system
+//        addStudent(student1);
+//        addStudent(student2);
+//        addStudent(student3);
+//
+//        // Adding teachers to the university management system
+//        addTeacher(teacher1);
+//        addTeacher(teacher2);
+//        addTeacher(teacher3);
+//
+//        // Adding courses to the university management system
+//        addCourse(course1);
+//        addCourse(course2);
+//        addCourse(course3);
 
         // Assigning grades for students
         student1.addGrade(course1, 9.0);
