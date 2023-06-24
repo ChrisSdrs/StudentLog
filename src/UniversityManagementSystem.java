@@ -106,15 +106,15 @@ public class UniversityManagementSystem {
         studentGrades.put(student, studentCourseGrades);
     }
 
-    // Record grade for student
-    public void addGradeToStudent(Student student, Course course, double grade) {
-        if (studentGrades.containsKey(student)) {
-            Map<Course, Double> studentCourseGrades = studentGrades.get(student);
-            if (studentCourseGrades.containsKey(course)) {
-                studentCourseGrades.put(course, grade);
-            }
-        }
-    }
+//    // Record grade for student
+//    public void addGradeToStudent(Student student, Course course, double grade) {
+//        if (studentGrades.containsKey(student)) {
+//            Map<Course, Double> studentCourseGrades = studentGrades.get(student);
+//            if (studentCourseGrades.containsKey(course)) {
+//                studentCourseGrades.put(course, grade);
+//            }
+//        }
+//    }
 
     // Calculate student's grade average
     public double calculateAverageGradeForStudent(Student student) {
@@ -247,7 +247,7 @@ public class UniversityManagementSystem {
         Student newStudent = new Student(studentId, studentName, studentEmail, studentPhone, semester);
 
         // Read existing data from the file
-        String dataToAdd = loadData("data.txt");
+        String dataToAdd = loadData("Students.txt");
 
         // Check if the student ID already exists
         if (findStudentById(newStudent.getStudentId(), dataToAdd) != null) {
@@ -259,7 +259,7 @@ public class UniversityManagementSystem {
         dataToAdd += newStudent.toString() + "\n";
 
         // Write the updated data back to the file
-        saveData("data.txt", dataToAdd.split("\n"));
+        saveData("Students.txt", dataToAdd.split("\n"));
 
         System.out.println("Student added successfully.\n");
     }
@@ -269,7 +269,7 @@ public class UniversityManagementSystem {
         String studentId = scanner.next();
 
         // Read the contents of the file
-        String[] data = loadDataAsArray("data.txt");
+        String[] data = loadDataAsArray("Students.txt");
 
         String[] newData = new String[data.length];
         boolean isEdited = false;
@@ -293,10 +293,10 @@ public class UniversityManagementSystem {
                     System.out.println("E-mail: " + email);
                     System.out.print("Set new e-mail: ");
                     String newStudentEmail = scanner.next();
-                    System.out.println("Phone number: "+phoneNumber);
+                    System.out.println("Phone number: " + phoneNumber);
                     System.out.print("Set new phone number: ");
                     String newStudentPhone = scanner.next();
-                    System.out.println("Semester: "+semester);
+                    System.out.println("Semester: " + semester);
                     System.out.print("Set new semester: ");
                     String newSemester = scanner.next();
 
@@ -316,7 +316,7 @@ public class UniversityManagementSystem {
         if (!isEdited) {
             System.out.println("Student with ID " + studentId + " does not exist.");
         } else {
-            saveData("data.txt", newData);
+            saveData("Students.txt", newData);
             System.out.println("Student details updated successfully.");
         }
     }
@@ -327,13 +327,13 @@ public class UniversityManagementSystem {
         String studentId = scanner.next();
 
         // Read the contents of the file
-        String[] data = loadDataAsArray("data.txt");
+        String[] data = loadDataAsArray("Students.txt");
 
         // Delete the student from the data
         String[] updatedData = deleteStudent(studentId, data);
 
         // Write the updated data back to the file
-        saveData("data.txt", updatedData);
+        saveData("Students.txt", updatedData);
 
         System.out.println("Student with ID " + studentId + " has been deleted.");
     }
@@ -383,7 +383,7 @@ public class UniversityManagementSystem {
         Teacher newTeacher = new Teacher(teacherId, teacherName, teacherEmail, teacherPhone, teacherSpecialization);
 
         // Read existing data from the file
-        String dataToAdd = loadData("data.txt");
+        String dataToAdd = loadData("Teachers.txt");
 
         // Check if the teacher ID already exists
         if (findTeacherById(newTeacher.getTeacherId(), dataToAdd) != null) {
@@ -395,7 +395,7 @@ public class UniversityManagementSystem {
         dataToAdd += newTeacher.toString() + "\n";
 
         // Write the updated data back to the file
-        saveData("data.txt", dataToAdd.split("\n"));
+        saveData("Teachers.txt", dataToAdd.split("\n"));
 
         System.out.println("Teacher added successfully.\n");
     }
@@ -405,7 +405,7 @@ public class UniversityManagementSystem {
         String teacherId = scanner.next();
 
         // Read the contents of the file
-        String[] data = loadDataAsArray("data.txt");
+        String[] data = loadDataAsArray("Teachers.txt");
 
         String[] newData = new String[data.length];
         boolean isEdited = false;
@@ -452,7 +452,7 @@ public class UniversityManagementSystem {
         if (!isEdited) {
             System.out.println("Teacher with ID " + teacherId + " does not exist.");
         } else {
-            saveData("data.txt", newData);
+            saveData("Teachers.txt", newData);
             System.out.println("Teacher details updated successfully.");
         }
     }
@@ -462,13 +462,13 @@ public class UniversityManagementSystem {
         String teacherId = scanner.next();
 
         // Read the contents of the file
-        String[] data = loadDataAsArray("data.txt");
+        String[] data = loadDataAsArray("Teachers.txt");
 
         // Delete the teacher from the data
         String[] updatedData = deleteTeacher(teacherId, data);
 
         // Write the updated data back to the file
-        saveData("data.txt", updatedData);
+        saveData("Teachers.txt", updatedData);
 
         System.out.println("Teacher with ID " + teacherId + " has been deleted.");
     }
@@ -512,7 +512,7 @@ public class UniversityManagementSystem {
         Course newCourse = new Course(courseId, courseTitle, courseSemester);
 
         // Read existing data from the file
-        String savedData = loadData("data.txt");
+        String savedData = loadData("Courses.txt");
 
         // Check if the course ID already exists
         if (findCourseById(newCourse.getCourseId(), savedData) != null) {
@@ -524,7 +524,7 @@ public class UniversityManagementSystem {
         savedData += newCourse.toString() + "\n";
 
         // Write the updated data back to the file
-        saveData("data.txt", savedData.split("\n"));
+        saveData("Courses.txt", savedData.split("\n"));
 
         System.out.println("Course added successfully.\n");
     }
@@ -534,7 +534,7 @@ public class UniversityManagementSystem {
         String courseId = scanner.next();
 
         // Read the contents of the file
-        String[] data = loadDataAsArray("data.txt");
+        String[] data = loadDataAsArray("Courses.txt");
 
         String[] newData = new String[data.length];
         boolean isEdited = false;
@@ -573,7 +573,7 @@ public class UniversityManagementSystem {
         if (!isEdited) {
             System.out.println("Course with ID " + courseId + " does not exist.");
         } else {
-            saveData("data.txt", newData);
+            saveData("Courses.txt", newData);
             System.out.println("Course details updated successfully.");
         }
     }
@@ -583,13 +583,13 @@ public class UniversityManagementSystem {
         String courseId = scanner.next();
 
         // Read the contents of the file
-        String[] data = loadDataAsArray("data.txt");
+        String[] data = loadDataAsArray("Courses.txt");
 
         // Delete the course from the data
         String[] updatedData = deleteCourse(courseId, data);
 
         // Write the updated data back to the file
-        saveData("data.txt", updatedData);
+        saveData("Courses.txt", updatedData);
 
         System.out.println("Course with ID " + courseId + " has been deleted.");
     }
@@ -608,6 +608,124 @@ public class UniversityManagementSystem {
             }
         }
         return newData.toString().split("\n");
+    }
+
+    public void assignCourseToStudent(String studentId, String courseId) {
+        /// Check if the student exists
+        Student student = findStudentById(studentId, loadData("Students.txt"));
+        if (student == null) {
+            System.out.println("Student not found.");
+            return;
+        }
+
+        // Check if the course exists
+        Course course = findCourseById(courseId, loadData("Courses.txt"));
+        if (course == null) {
+            System.out.println("Course not found.");
+            return;
+        }
+
+        // Check if the assignment exists
+        if (assignmentExists(studentId, courseId, loadData("Grades.txt"))) {
+            System.out.println("Assignment already exists.");
+            return;
+        }
+
+        // Create the course assignment entry
+        String assignment = "Grade: SID=" + studentId + ", CID=" + courseId + ", Grade=";
+
+        // Append the assignment to the "Grades.txt" file
+        String[] currentData = loadDataAsArray("Grades.txt");
+        String[] newData = new String[currentData.length + 1];
+        System.arraycopy(currentData, 0, newData, 0, currentData.length);
+        newData[currentData.length] = assignment;
+        saveData("Grades.txt", newData);
+        System.out.println("Course assignment saved successfully.");
+    }
+
+    public void assignCourseToTeacher(String teacherId, String courseId) {
+        /// Check if the student exists
+        Teacher teacher = findTeacherById(teacherId, loadData("Teachers.txt"));
+        if (teacher == null) {
+            System.out.println("Teacher not found.");
+            return;
+        }
+
+        // Check if the course exists
+        Course course = findCourseById(courseId, loadData("Courses.txt"));
+        if (course == null) {
+            System.out.println("Course not found.");
+            return;
+        }
+
+        // Check if the assignment exists
+        if (assignmentExists(teacherId, courseId, loadData("Grades.txt"))) {
+            System.out.println("Assignment already exists.");
+            return;
+        }
+
+        // Create the course assignment entry
+        String assignment = "Grade: TID=" + teacherId + ", CID=" + courseId;
+
+        // Append the assignment to the "Grades.txt" file
+        String[] currentData = loadDataAsArray("Tuitions.txt");
+        String[] newData = new String[currentData.length + 1];
+        System.arraycopy(currentData, 0, newData, 0, currentData.length);
+        newData[currentData.length] = assignment;
+        saveData("Tuitions.txt", newData);
+        System.out.println("Course assignment saved successfully.");
+    }
+
+    public void addGradeToStudent(String studentId, String courseId, String grade) {
+        String data = loadData("Grades.txt");
+        if (assignmentExists(studentId, courseId, data)) {
+            List<String> newData = new ArrayList<>();
+
+            String[] lines = data.split("\n");
+            for (String line : lines) {
+                if (line.startsWith("Grade")) {
+                    String[] parts = line.split(":|,");
+                    for (int i = 0; i < parts.length; i++) {
+                        if (parts[i].trim().startsWith("Grade=") && parts[i].trim().startsWith("SID=" + studentId) && parts[i + 1].trim().startsWith("CID=" + courseId)){
+                            parts[i] = " Grade=" + grade; // Update the grade information
+                            break;
+                        }
+                    }
+                    // Add new grade
+                    String newGrade = "Grade: SID=" + studentId + ", CID=" + courseId + ", Grade=" + grade;
+                    newData.add(newGrade);
+                }
+            }
+            saveData("Grades.txt", newData.toArray(new String[0]));
+            System.out.println("Grade added successfully.");
+        } else {
+            System.out.println("Assignment not found for the specified student ID and course ID.");
+        }
+    }
+
+    public boolean assignmentExists(String personId, String courseId, String data) {
+        String[] lines = data.split("\n");
+        for (String line : lines) {
+            if (line.startsWith("Grade")) {
+                String[] parts = line.split(":|,");
+                String sid = parts[1].substring(5).trim(); // Student ID
+                String cid = parts[2].substring(5).trim(); // Course ID
+
+                if (sid.equals(personId) && cid.equals(courseId)) {
+                    return true;
+                }
+            }
+            if (line.startsWith("Tuition")) {
+                String[] parts = line.split(":|,");
+                String tid = parts[1].substring(5).trim(); // Teacher ID
+                String cid = parts[2].substring(5).trim(); // Course ID
+
+                if (tid.equals(personId) && cid.equals(courseId)) {
+                    return true;
+                }
+            }
+        }
+        return false; // Assignment not found for the specified student ID and course ID
     }
 
     public void saveData(String filename, String[] data) {
@@ -690,22 +808,45 @@ public class UniversityManagementSystem {
         Course course2 = new Course("2", "Calculus", "3");
         Course course3 = new Course("3", "Physics Mechanics", "1");
 
+        // Creating sample data for grades
+        String grade1 = "Grade: SID=1, CID=1, Grade=5";
+
+        // Creating sample data for tuitions
+        String tuition1 = "Tuition: TID=1, CID=1";
 
         // Convert the data to string representation
-        String[] data = {
+        String[] studentData = {
                 student1.toString(),
                 student2.toString(),
-                student3.toString(),
+                student3.toString()
+        };
+
+        String[] teacherData = {
                 teacher1.toString(),
                 teacher2.toString(),
-                teacher3.toString(),
+                teacher3.toString()
+        };
+
+        String[] courseData = {
                 course1.toString(),
                 course2.toString(),
                 course3.toString()
         };
 
+        String[] gradeData = {
+                grade1
+        };
+
+        String[] tuitionData = {
+                tuition1
+        };
+
         // Save the data to a file
-        saveData("data.txt", data);
+        saveData("Students.txt", studentData);
+        saveData("Teachers.txt", teacherData);
+        saveData("Courses.txt", courseData);
+        saveData("Grades.txt", gradeData);
+        saveData("Tuitions.txt", tuitionData);
 
 
 //        // Adding students to the university management system

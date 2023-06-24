@@ -22,10 +22,15 @@ public class Main {
             System.out.println("6. Exit");
             System.out.print("Choose an option: ");
 
-//            String data = ums.loadData("data.txt");
-//            ums.saveStudentGradesToFile(,"data.txt");
+//            String studentData = ums.loadData("Students.txt");
+//            String teacherData = ums.loadData("Teachers.txt");
+//            String courseData = ums.loadData("Courses.txt");
+//            // ums.saveStudentGradesToFile(,"data.txt");
 //            // Print saved data
-//            System.out.println(data);
+//            System.out.println("\n\n");
+//            System.out.println(studentData);
+//            System.out.println(teacherData);
+//            System.out.println(courseData);
 
             int secondChoice = 0;
             try {
@@ -53,10 +58,18 @@ public class Main {
                                     break;
                                 case 4:
                                     System.out.print("Enter student ID: ");
-                                    Student studentFoundById = ums.findStudentById(scanner.next(), ums.loadData("data.txt"));
+                                    Student studentFoundById = ums.findStudentById(scanner.next(), ums.loadData("Students.txt"));
                                     ums.displayStudent(studentFoundById);
                                     break;
                                 case 5:
+                                    System.out.print("Enter student ID: ");
+                                    String studentId = scanner.next();
+                                    System.out.print("Enter course ID: ");
+                                    String courseId = scanner.next();
+                                    System.out.print("Enter grade: ");
+                                    String grade = scanner.next();
+                                    ums.addGradeToStudent(studentId,courseId,grade);
+                                    break;
                                 case 6:
                                     System.out.println("\nMain menu.\n");
                                     break;
@@ -90,7 +103,7 @@ public class Main {
                                     break;
                                 case 4:
                                     System.out.print("Enter teacher ID: ");
-                                    Teacher teacherFoundById = ums.findTeacherById(scanner.next(), ums.loadData("data.txt"));
+                                    Teacher teacherFoundById = ums.findTeacherById(scanner.next(), ums.loadData("Teachers.txt"));
                                     ums.displayTeacher(teacherFoundById);
                                     break;
                                 case 5:
@@ -128,11 +141,23 @@ public class Main {
                                     break;
                                 case 4:
                                     System.out.print("Enter course ID: ");
-                                    Course courseFoundById = ums.findCourseById(scanner.next(), ums.loadData("data.txt"));
+                                    Course courseFoundById = ums.findCourseById(scanner.next(), ums.loadData("Courses.txt"));
                                     ums.displayCourse(courseFoundById);
                                     break;
                                 case 5:
+                                    System.out.print("Enter student ID: ");
+                                    String studentId = scanner.next();
+                                    System.out.print("Enter course ID: ");
+                                    String studentCourseId = scanner.next();
+                                    ums.assignCourseToStudent(studentId, studentCourseId);
+                                    break;
                                 case 6:
+                                    System.out.print("Enter teacher ID: ");
+                                    String teacherId = scanner.next();
+                                    System.out.print("Enter course ID: ");
+                                    String teacherCourseId = scanner.next();
+                                    ums.assignCourseToTeacher(teacherId, teacherCourseId);
+                                    break;
                                 case 7:
                                     System.out.println("\nMain menu.\n");
                                     break;
