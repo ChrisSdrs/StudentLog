@@ -28,14 +28,8 @@ public class UniversityManagementSystem {
                     String name = parts[2].substring(6).trim();  // Index 2 contains the Name
                     String email = parts[3].substring(7).trim();  // Index 3 contains the Email
                     String phoneNumber = parts[4].substring(7).trim();  // Index 4 contains the Phone number
-                    int semester;
-                    try {
-                        semester = Integer.parseInt(parts[5].substring(10).trim());  // Index 5 contains the Semester
-                    } catch (NumberFormatException e) {
-                        System.out.println("Error parsing student semester: " + e.getMessage());
-                        e.printStackTrace();
-                        continue; // Skip this line if semester is not a valid integer
-                    }
+                    String semester = parts[5].substring(10).trim();  // Index 5 contains the Semester
+
                     return new Student(id, name, email, phoneNumber, semester);
                 }
             }
@@ -74,14 +68,8 @@ public class UniversityManagementSystem {
 
                 if (id.equals(courseId)) {
                     String title = parts[2].substring(7).trim();  // Index 3 contains the Title
-                    int semester;
-                    try {
-                        semester = Integer.parseInt(parts[3].substring(10).trim());  // Index 5 contains the Semester
-                    } catch (NumberFormatException e) {
-                        System.out.println("Error parsing student semester: " + e.getMessage());
-                        e.printStackTrace();
-                        continue; // Skip this line if semester is not a valid integer
-                    }
+                    String semester = parts[3].substring(10).trim();  // Index 5 contains the Semester
+
                     return new Course(id, title, semester);
                 }
             }
@@ -231,7 +219,7 @@ public class UniversityManagementSystem {
 
     public void displayStudent(Student student) {
         if (student != null) {
-            System.out.println("Student Details:");
+            System.out.println("\nStudent Details:");
             System.out.println("ID: " + student.getStudentId());
             System.out.println("Name: " + student.getFullName());
             System.out.println("Email: " + student.getEmail());
@@ -250,11 +238,11 @@ public class UniversityManagementSystem {
         System.out.print("Full name: ");
         String studentName = scanner.next() + scanner.nextLine();
         System.out.print("E-mail: ");
-        String studentEmail = scanner.nextLine();
+        String studentEmail = scanner.next();
         System.out.print("Phone Number: ");
-        String studentPhone = scanner.nextLine();
+        String studentPhone = scanner.next();
         System.out.print("Semester: ");
-        int semester = scanner.nextInt();
+        String semester = scanner.next();
 
         Student newStudent = new Student(studentId, studentName, studentEmail, studentPhone, semester);
 
@@ -275,6 +263,64 @@ public class UniversityManagementSystem {
 
         System.out.println("Student added successfully.\n");
     }
+
+    public void editStudentById(Scanner scanner) {
+        System.out.print("Enter the student ID to edit: ");
+        String studentId = scanner.next();
+
+        // Read the contents of the file
+        String[] data = loadDataAsArray("data.txt");
+
+        String[] newData = new String[data.length];
+        boolean isEdited = false;
+
+        for (int i = 0; i < data.length; i++) {
+            String line = data[i];
+            if (line.startsWith("Student")) {
+                String[] parts = line.split(":|,");
+                String id = parts[1].substring(4).trim();
+                if (id.equals(studentId)) {
+                    // Student found, modify the line here if needed
+                    String name = parts[2].substring(6).trim();
+                    String email = parts[3].substring(7).trim();
+                    String phoneNumber = parts[4].substring(7).trim();
+                    String semester = parts[5].substring(10).trim();  // Index 5 contains the Semester
+
+                    System.out.println("Enter student details: ");
+                    System.out.println("Full name: " + name);
+                    System.out.print("Set new full name: ");
+                    String newStudentName = scanner.next() + scanner.nextLine();
+                    System.out.println("E-mail: " + email);
+                    System.out.print("Set new e-mail: ");
+                    String newStudentEmail = scanner.next();
+                    System.out.println("Phone number: "+phoneNumber);
+                    System.out.print("Set new phone number: ");
+                    String newStudentPhone = scanner.next();
+                    System.out.println("Semester: "+semester);
+                    System.out.print("Set new semester: ");
+                    String newSemester = scanner.next();
+
+                    // Create the modified student line
+                    Student editedStudent = new Student(studentId, newStudentName, newStudentEmail, newStudentPhone, newSemester);
+
+                    newData[i] = editedStudent.toString();
+                    isEdited = true;
+                } else {
+                    newData[i] = line;
+                }
+            } else {
+                newData[i] = line;
+            }
+        }
+
+        if (!isEdited) {
+            System.out.println("Student with ID " + studentId + " does not exist.");
+        } else {
+            saveData("data.txt", newData);
+            System.out.println("Student details updated successfully.");
+        }
+    }
+
 
     public void deleteStudentById(Scanner scanner) {
         System.out.print("Enter the student ID to delete: ");
@@ -329,12 +375,12 @@ public class UniversityManagementSystem {
         String teacherName = scanner.next() + scanner.nextLine();
         System.out.print("E-mail: ");
         String teacherEmail = scanner.next();
-        System.out.print("Phone Number: ");
+        System.out.print("Phone number: ");
         String teacherPhone = scanner.next();
-        System.out.print("Specialty: ");
-        String teacherSpecialty = scanner.next();
+        System.out.print("Specialization: ");
+        String teacherSpecialization = scanner.next();
 
-        Teacher newTeacher = new Teacher(teacherId, teacherName, teacherEmail, teacherPhone, teacherSpecialty);
+        Teacher newTeacher = new Teacher(teacherId, teacherName, teacherEmail, teacherPhone, teacherSpecialization);
 
         // Read existing data from the file
         String dataToAdd = loadData("data.txt");
@@ -352,6 +398,63 @@ public class UniversityManagementSystem {
         saveData("data.txt", dataToAdd.split("\n"));
 
         System.out.println("Teacher added successfully.\n");
+    }
+
+    public void editTeacherById(Scanner scanner) {
+        System.out.print("Enter the teacher ID to edit: ");
+        String teacherId = scanner.next();
+
+        // Read the contents of the file
+        String[] data = loadDataAsArray("data.txt");
+
+        String[] newData = new String[data.length];
+        boolean isEdited = false;
+
+        for (int i = 0; i < data.length; i++) {
+            String line = data[i];
+            if (line.startsWith("Teacher")) {
+                String[] parts = line.split(":|,");
+                String id = parts[1].substring(4).trim();
+                if (id.equals(teacherId)) {
+                    // Teacher found, modify the line here if needed
+                    String name = parts[2].substring(6).trim();
+                    String email = parts[3].substring(7).trim();
+                    String phoneNumber = parts[4].substring(7).trim();
+                    String specialization = parts[5].substring(16).trim();  // Index 5 contains the specialization
+
+                    System.out.println("Enter teacher details: ");
+                    System.out.println("Full name: " + name);
+                    System.out.print("Set new full name: ");
+                    String newTeacherName = scanner.next() + scanner.nextLine();
+                    System.out.println("E-mail: " + email);
+                    System.out.print("Set new e-mail: ");
+                    String newTeacherEmail = scanner.next();
+                    System.out.println("Phone number: " + phoneNumber);
+                    System.out.print("Set new phone number: ");
+                    String newTeacherPhone = scanner.next();
+                    System.out.println("Specialization: " + specialization);
+                    System.out.print("Set new specialization: ");
+                    String newSpecialization = scanner.next();
+
+                    // Create the modified teacher line
+                    Teacher editedTeacher = new Teacher(teacherId, newTeacherName, newTeacherEmail, newTeacherPhone, newSpecialization);
+
+                    newData[i] = editedTeacher.toString();
+                    isEdited = true;
+                } else {
+                    newData[i] = line;
+                }
+            } else {
+                newData[i] = line;
+            }
+        }
+
+        if (!isEdited) {
+            System.out.println("Teacher with ID " + teacherId + " does not exist.");
+        } else {
+            saveData("data.txt", newData);
+            System.out.println("Teacher details updated successfully.");
+        }
     }
 
     public void deleteTeacherById(Scanner scanner) {
@@ -388,13 +491,13 @@ public class UniversityManagementSystem {
 
     public void displayCourse(Course course) {
         if (course != null) {
-            System.out.println("Course Details:");
+            System.out.println("\nCourse Details:");
             System.out.println("ID: " + course.getCourseId());
             System.out.println("Title: " + course.getTitle());
             System.out.println("Semester: " + course.getSemester());
             System.out.println("------------------------");
         } else {
-            System.out.println("Teacher not found with the given ID.\n");
+            System.out.println("Course not found with the given ID.\n");
         }
     }
 
@@ -404,26 +507,75 @@ public class UniversityManagementSystem {
         System.out.print("Title: ");
         String courseTitle = scanner.next() + scanner.nextLine();
         System.out.print("Semester: ");
-        int courseSemester = scanner.nextInt();
+        String courseSemester = scanner.next();
 
         Course newCourse = new Course(courseId, courseTitle, courseSemester);
 
         // Read existing data from the file
-        String dataToAdd = loadData("data.txt");
+        String savedData = loadData("data.txt");
 
         // Check if the course ID already exists
-        if (findTeacherById(newCourse.getCourseId(), dataToAdd) != null) {
+        if (findCourseById(newCourse.getCourseId(), savedData) != null) {
             System.out.println("Course with the same ID already exists.\n");
             return;
         }
 
         // Append new course details to the data
-        dataToAdd += newCourse.toString() + "\n";
+        savedData += newCourse.toString() + "\n";
 
         // Write the updated data back to the file
-        saveData("data.txt", dataToAdd.split("\n"));
+        saveData("data.txt", savedData.split("\n"));
 
         System.out.println("Course added successfully.\n");
+    }
+
+    public void editCourseById(Scanner scanner) {
+        System.out.print("Enter the course ID to edit: ");
+        String courseId = scanner.next();
+
+        // Read the contents of the file
+        String[] data = loadDataAsArray("data.txt");
+
+        String[] newData = new String[data.length];
+        boolean isEdited = false;
+
+        for (int i = 0; i < data.length; i++) {
+            String line = data[i];
+            if (line.startsWith("Course")) {
+                String[] parts = line.split(":|,");
+                String id = parts[1].substring(4).trim();
+                if (id.equals(courseId)) {
+                    // Course found, modify the line here if needed
+                    String title = parts[2].substring(7).trim();
+                    String semester = parts[3].substring(10).trim();
+
+                    System.out.println("Enter course details: ");
+                    System.out.println("Title: " + title);
+                    System.out.print("Set new title: ");
+                    String newTitle = scanner.next() + scanner.nextLine();
+                    System.out.println("Semester: " + semester);
+                    System.out.print("Set new semester: ");
+                    String newSemester = scanner.next();
+
+                    // Create the modified course line
+                    Course editedCourse = new Course(courseId, newTitle, newSemester);
+
+                    newData[i] = editedCourse.toString();
+                    isEdited = true;
+                } else {
+                    newData[i] = line;
+                }
+            } else {
+                newData[i] = line;
+            }
+        }
+
+        if (!isEdited) {
+            System.out.println("Course with ID " + courseId + " does not exist.");
+        } else {
+            saveData("data.txt", newData);
+            System.out.println("Course details updated successfully.");
+        }
     }
 
     public void deleteCourseById(Scanner scanner) {
@@ -524,9 +676,9 @@ public class UniversityManagementSystem {
 
     public void dataInject() {
         // Creating sample data for students
-        Student student1 = new Student("1", "John Doe", "john.doe@example.com", "1234567890", 3);
-        Student student2 = new Student("2", "Jane Smith", "jane.smith@example.com", "9876543210", 4);
-        Student student3 = new Student("3", "David Johnson", "david.johnson@example.com", "5555555555", 2);
+        Student student1 = new Student("1", "John Doe", "john.doe@example.com", "1234567890", "3");
+        Student student2 = new Student("2", "Jane Smith", "jane.smith@example.com", "9876543210", "4");
+        Student student3 = new Student("3", "David Johnson", "david.johnson@example.com", "5555555555", "2");
 
         // Creating sample data for teachers
         Teacher teacher1 = new Teacher("1", "Smith Jones", "prof.smith@example.com", "1111111111", "Computer Science");
@@ -534,9 +686,9 @@ public class UniversityManagementSystem {
         Teacher teacher3 = new Teacher("3", "Lee Evans", "prof.lee@example.com", "3333333333", "Physics");
 
         // Creating sample data for courses
-        Course course1 = new Course("1", "Introduction to Programming", 2);
-        Course course2 = new Course("2", "Calculus", 3);
-        Course course3 = new Course("3", "Physics Mechanics", 1);
+        Course course1 = new Course("1", "Introduction to Programming", "2");
+        Course course2 = new Course("2", "Calculus", "3");
+        Course course3 = new Course("3", "Physics Mechanics", "1");
 
 
         // Convert the data to string representation

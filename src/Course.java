@@ -1,10 +1,10 @@
 public class Course {
     private String courseId;
     private String title;
-    private int semester;
+    private String semester;
 
     // Constructor
-    public Course(String courseId, String title, int semester) {
+    public Course(String courseId, String title, String semester) {
         this.courseId = courseId;
         this.title = title;
         this.semester = semester;
@@ -32,11 +32,11 @@ public class Course {
         this.title = title;
     }
 
-    public int getSemester() {
+    public String getSemester() {
         return semester;
     }
 
-    public void setSemester(int semester) {
+    public void setSemester(String semester) {
         this.semester = semester;
     }
 }

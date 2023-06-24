@@ -6,11 +6,11 @@ public class Student {
     private String fullName;
     private String email;
     private String phoneNumber;
-    private int semester;
+    private String semester;
     private Map<Course, Double> grades;
 
     //  Constructor
-    public Student(String studentId, String fullName, String email, String phoneNumber, int semester) {
+    public Student(String studentId, String fullName, String email, String phoneNumber, String semester) {
         this.studentId = studentId;
         this.fullName = fullName;
         this.email = email;
@@ -57,11 +57,11 @@ public class Student {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getSemester() {
+    public String getSemester() {
         return semester;
     }
 
-    public void setSemester(int semester) {
+    public void setSemester(String semester) {
         this.semester = semester;
     }
 

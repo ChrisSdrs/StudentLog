@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,39 +13,41 @@ public class Main {
         int choice = 0;
 
         while (choice != 6) {
+            System.out.println("Main menu.\n");
             System.out.println("1. Student");
             System.out.println("2. Teacher");
             System.out.println("3. Course");
-            System.out.println("4. Display Average Grade per Student");
-            System.out.println("5. Display Average Grade per Course");
+            System.out.println("4. Display average grade per student");
+            System.out.println("5. Display average grade per course");
             System.out.println("6. Exit");
             System.out.print("Choose an option: ");
 
-            String data = ums.loadData("data.txt");
-
+//            String data = ums.loadData("data.txt");
 //            ums.saveStudentGradesToFile(,"data.txt");
-
-            // Print saved data
+//            // Print saved data
 //            System.out.println(data);
 
+            int secondChoice = 0;
             try {
                 choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
-                        System.out.println("1. Add student");
+                        System.out.println("\n1. Add student");
                         System.out.println("2. Edit student");
                         System.out.println("3. Delete student");
                         System.out.println("4. Find student by ID");
-                        System.out.println("5. Enter Grade for Student");
+                        System.out.println("5. Enter grade for student");
                         System.out.println("6. Go back");
                         System.out.print("Choose an option: ");
                         try {
-                            choice = scanner.nextInt();
-                            switch (choice) {
+                            secondChoice = scanner.nextInt();
+                            switch (secondChoice) {
                                 case 1:
                                     ums.addStudent(scanner);
                                     break;
                                 case 2:
+                                    ums.editStudentById(scanner);
+                                    break;
                                 case 3:
                                     ums.deleteStudentById(scanner);
                                     break;
@@ -57,6 +58,10 @@ public class Main {
                                     break;
                                 case 5:
                                 case 6:
+                                    System.out.println("\nMain menu.\n");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice. Please try again.");
                                     break;
                             }
                         } catch (InputMismatchException e) {
@@ -65,20 +70,21 @@ public class Main {
                         }
                         break;
                     case 2:
-                        System.out.println("1. Add teacher");
+                        System.out.println("\n1. Add teacher");
                         System.out.println("2. Edit teacher");
                         System.out.println("3. Delete teacher");
                         System.out.println("4. Find teacher by ID");
-                        System.out.println("5. Assign Course to Teacher");
-                        System.out.println("6. Go back");
+                        System.out.println("5. Go back");
                         System.out.print("Choose an option: ");
                         try {
-                            choice = scanner.nextInt();
-                            switch (choice) {
+                            secondChoice = scanner.nextInt();
+                            switch (secondChoice) {
                                 case 1:
                                     ums.addTeacher(scanner);
                                     break;
                                 case 2:
+                                    ums.editTeacherById(scanner);
+                                    break;
                                 case 3:
                                     ums.deleteTeacherById(scanner);
                                     break;
@@ -88,7 +94,10 @@ public class Main {
                                     ums.displayTeacher(teacherFoundById);
                                     break;
                                 case 5:
-                                case 6:
+                                    System.out.println("\nMain menu.\n");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice. Please try again.");
                                     break;
                             }
                         } catch (InputMismatchException e) {
@@ -97,20 +106,23 @@ public class Main {
                         }
                         break;
                     case 3:
-                        System.out.println("1. Add course");
+                        System.out.println("\n1. Add course");
                         System.out.println("2. Edit course");
                         System.out.println("3. Delete course");
                         System.out.println("4. Find course by ID");
-                        System.out.println("5. Assign Course to Student");
-                        System.out.println("6. Go back");
+                        System.out.println("5. Assign course to student");
+                        System.out.println("6. Assign course to teacher");
+                        System.out.println("7. Go back");
                         System.out.print("Choose an option: ");
                         try {
-                            choice = scanner.nextInt();
-                            switch (choice) {
+                            secondChoice = scanner.nextInt();
+                            switch (secondChoice) {
                                 case 1:
                                     ums.addCourse(scanner);
                                     break;
                                 case 2:
+                                    ums.editCourseById(scanner);
+                                    break;
                                 case 3:
                                     ums.deleteCourseById(scanner);
                                     break;
@@ -121,6 +133,11 @@ public class Main {
                                     break;
                                 case 5:
                                 case 6:
+                                case 7:
+                                    System.out.println("\nMain menu.\n");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice. Please try again.");
                                     break;
                             }
                         } catch (InputMismatchException e) {
@@ -162,7 +179,7 @@ public class Main {
 //                            System.out.println("Invalid student ID or course ID.");
 //                        }
                         break;
-                    case 6:
+                    case 11:
                         // Καταχώρηση βαθμολογίας σε φοιτητή
                         System.out.print("Student ID: ");
                         studentId = scanner.next();
@@ -209,7 +226,7 @@ public class Main {
 //                            System.out.println("Invalid course ID.");
 //                        }
                         break;
-                    case 12:
+                    case 6:
                         // Exit the program
                         System.out.println("Exiting the program.");
                         break;
