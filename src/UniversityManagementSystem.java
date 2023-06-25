@@ -676,30 +676,83 @@ public class UniversityManagementSystem {
         System.out.println("Course assignment saved successfully.");
     }
 
-    public void addGradeToStudent(String studentId, String courseId, String grade) {
-        String data = loadData("Grades.txt");
-        if (assignmentExists(studentId, courseId, data)) {
-            List<String> newData = new ArrayList<>();
+    public void addGradeToStudent(String studentId, String courseId, double grade) {
+        // Check if the student exists
+        Student student = findStudentById(studentId, loadData("Students.txt"));
+        if (student == null) {
+            System.out.println("Student not found.");
+            return;
+        }
 
-            String[] lines = data.split("\n");
-            for (String line : lines) {
-                if (line.startsWith("Grade")) {
-                    String[] parts = line.split(":|,");
-                    for (int i = 0; i < parts.length; i++) {
-                        if (parts[i].trim().startsWith("Grade=") && parts[i].trim().startsWith("SID=" + studentId) && parts[i + 1].trim().startsWith("CID=" + courseId)){
-                            parts[i] = " Grade=" + grade; // Update the grade information
-                            break;
+        // Check if the course exists
+        Course course = findCourseById(courseId, loadData("Courses.txt"));
+        if (course == null) {
+            System.out.println("Course not found.");
+            return;
+        }
+
+        // Load existing grades data
+        String[] gradesData = loadDataAsArray("Grades.txt");
+
+        // Find the assignment for the specified student ID and course ID
+        int assignmentIndex = -1;
+        for (int i = 0; i < gradesData.length; i++) {
+            String line = gradesData[i];
+            if (line.startsWith("Grade: SID=" + studentId + ", CID=" + courseId)) {
+                assignmentIndex = i;
+                break;
+            }
+        }
+
+        // Update or add the new grade
+        String newAssignment = "Grade: SID=" + studentId + ", CID=" + courseId + ", Grade=" + grade;
+        if (assignmentIndex != -1) {
+            // Overwrite the existing assignment with the new grade
+            gradesData[assignmentIndex] = newAssignment;
+            System.out.println("Grade updated successfully.\n");
+        } else {
+            // Add the new assignment with the grade
+            String[] newData = new String[gradesData.length + 1];
+            System.arraycopy(gradesData, 0, newData, 0, gradesData.length);
+            newData[gradesData.length] = newAssignment;
+            gradesData = newData;
+            System.out.println("Grade added successfully.\n");
+        }
+
+        // Save the updated grades data
+        saveData("Grades.txt", gradesData);
+    }
+
+
+
+    public void displayAverageGradeForStudent(String studentId, String[] data) {
+        double totalGrades = 0;
+        double gradeCount = 0;
+        for (String line : data) {
+            if (line.startsWith("Grade") && line.contains("SID=" + studentId)) {
+                String[] parts = line.split(":|,");
+                for (String part : parts) {
+                    if (part.trim().startsWith("Grade=")) {
+                        double grade;
+                        try {
+                            grade = Double.parseDouble(part.substring(7).trim());
+                            totalGrades += grade;
+                            gradeCount++;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Error parsing grade: " + e.getMessage());
+                            e.printStackTrace();
                         }
+                        break;
                     }
-                    // Add new grade
-                    String newGrade = "Grade: SID=" + studentId + ", CID=" + courseId + ", Grade=" + grade;
-                    newData.add(newGrade);
                 }
             }
-            saveData("Grades.txt", newData.toArray(new String[0]));
-            System.out.println("Grade added successfully.");
+        }
+
+        if (gradeCount > 0) {
+            double averageGrade = (double) totalGrades / gradeCount;
+            System.out.println("Average grade for student ID " + studentId + ": " + averageGrade);
         } else {
-            System.out.println("Assignment not found for the specified student ID and course ID.");
+            System.out.println("No grades found for the specified student ID.");
         }
     }
 
@@ -777,7 +830,7 @@ public class UniversityManagementSystem {
         return data.toString();
     }
 
-    public static String[] loadDataAsArray(String filename) {
+    public String[] loadDataAsArray(String filename) {
         List<String> lines = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {

@@ -67,8 +67,8 @@ public class Main {
                                     System.out.print("Enter course ID: ");
                                     String courseId = scanner.next();
                                     System.out.print("Enter grade: ");
-                                    String grade = scanner.next();
-                                    ums.addGradeToStudent(studentId,courseId,grade);
+                                    double grade = scanner.nextDouble();
+                                    ums.addGradeToStudent(studentId, courseId, grade);
                                     break;
                                 case 6:
                                     System.out.println("\nMain menu.\n");
@@ -171,85 +171,12 @@ public class Main {
                         }
                         break;
                     case 4:
-                        // Assign Course to Teacher
-                        System.out.print("Teacher ID: ");
-                        String teacherId = scanner.next();
-                        System.out.print("Course ID: ");
-                        String courseId = scanner.next();
-
-//                        Teacher teacher = ums.findTeacherById(teacherId);
-//                        course = ums.findCourseById(courseId);
-
-//                        if (teacher != null && course != null) {
-//                            ums.assignCourseToTeacher(teacher, course);
-//                            System.out.println("The course has been assigned to the teacher.");
-//                        } else {
-//                            System.out.println("Invalid teacher ID or course ID.");
-//                        }
+                        System.out.print("Enter student ID: ");
+                        String studentId = scanner.next();
+                        ums.displayAverageGradeForStudent(studentId, ums.loadDataAsArray("Grades.txt"));
                         break;
                     case 5:
-                        // Ανάθεση μαθήματος σε φοιτητή
-                        System.out.print("Student ID: ");
-                        String studentId = scanner.next();
-                        System.out.print("Course ID: ");
-                        courseId = scanner.next();
 
-//                        Student student = ums.findStudentById(studentId);
-//                        course = ums.findCourseById(courseId);
-
-//                        if (student != null && course != null) {
-//                            ums.assignCourseToStudent(student, course);
-//                            System.out.println("The course has been assigned to the student.");
-//                        } else {
-//                            System.out.println("Invalid student ID or course ID.");
-//                        }
-                        break;
-                    case 11:
-                        // Καταχώρηση βαθμολογίας σε φοιτητή
-                        System.out.print("Student ID: ");
-                        studentId = scanner.next();
-                        System.out.print("Course ID: ");
-                        courseId = scanner.next();
-                        System.out.print("Grade: ");
-                        double grade = scanner.nextDouble();
-
-//                        student = ums.findStudentById(studentId);
-//                        course = ums.findCourseById(courseId);
-//
-//                        if (student != null && course != null) {
-//                            ums.addGrade(student, course, grade);
-//                            System.out.println("The grade has been recorded successfully.");
-//                        } else {
-//                            System.out.println("Invalid student ID or course ID.");
-//                        }
-                        break;
-                    case 7:
-                        // Display average grade per student
-                        System.out.print("Student ID: ");
-                        studentId = scanner.next();
-
-//                        student = ums.findStudentById(studentId);
-//
-//                        if (student != null) {
-//                            double average = ums.calculateStudentAverage(student);
-//                            System.out.println("The average grade for the student is: " + average);
-//                        } else {
-//                            System.out.println("Invalid student ID.");
-//                        }
-                        break;
-                    case 8:
-                        // Display average grade per course
-                        System.out.print("Course ID: ");
-                        courseId = scanner.next();
-
-//                        course = ums.findCourseById(courseId);
-
-//                        if (course != null) {
-//                            double average = ums.calculateCourseAverage(course);
-//                            System.out.println("The average grade for the course is: " + average);
-//                        } else {
-//                            System.out.println("Invalid course ID.");
-//                        }
                         break;
                     case 6:
                         // Exit the program
