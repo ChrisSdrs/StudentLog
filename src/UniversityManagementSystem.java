@@ -7,7 +7,7 @@ public class UniversityManagementSystem {
         for (String line : lines) {
             // Student
             if (line.startsWith("Student")) {
-                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String[] parts = line.split("[:,]");  // Split using ':' or ',' as separators
                 String id = parts[1].substring(4).trim();  // Index 1 contains the ID
 
                 if (id.equals(studentId)) {
@@ -28,7 +28,7 @@ public class UniversityManagementSystem {
         for (String line : lines) {
             // Teacher
             if (line.startsWith("Teacher")) {
-                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String[] parts = line.split("[:,]");  // Split using ':' or ',' as separators
                 String id;
                 id = parts[1].substring(4).trim();  // Index 1 contains the ID
 
@@ -48,7 +48,7 @@ public class UniversityManagementSystem {
         String[] lines = data.split("\n");
         for (String line : lines) {
             if (line.startsWith("Course")) {
-                String[] parts = line.split(":|,");  // Split using ':' or ',' as separators
+                String[] parts = line.split("[:,]");  // Split using ':' or ',' as separators
                 String id;
                 id = parts[1].substring(4).trim();  // Index 1 contains the ID
 
@@ -107,7 +107,7 @@ public class UniversityManagementSystem {
         Student newStudent = new Student(studentId, studentName, studentEmail, studentPhone, semester);
 
         // Append new student details to the data
-        studentsData += newStudent.toString() + "\n";
+        studentsData += newStudent + "\n";
 
         // Write the updated data back to the file
         saveData("Students.txt", studentsData.split("\n"));
@@ -128,7 +128,7 @@ public class UniversityManagementSystem {
         for (int i = 0; i < data.length; i++) {
             String line = data[i];
             if (line.startsWith("Student")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String id = parts[1].substring(4).trim();
                 if (id.equals(studentId)) {
                     // Student found, modify the line here if needed
@@ -196,7 +196,7 @@ public class UniversityManagementSystem {
         StringBuilder newData = new StringBuilder();
         for (String line : data) {
             if (line.startsWith("Student")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String id = parts[1].substring(4).trim();
                 if (!id.equals(studentId)) {
                     newData.append(line).append("\n");
@@ -246,7 +246,7 @@ public class UniversityManagementSystem {
         }
 
         // Append new teacher details to the data
-        dataToAdd += newTeacher.toString() + "\n";
+        dataToAdd += newTeacher + "\n";
 
         // Write the updated data back to the file
         saveData("Teachers.txt", dataToAdd.split("\n"));
@@ -267,7 +267,7 @@ public class UniversityManagementSystem {
         for (int i = 0; i < data.length; i++) {
             String line = data[i];
             if (line.startsWith("Teacher")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String id = parts[1].substring(4).trim();
                 if (id.equals(teacherId)) {
                     // Teacher found, modify the line here if needed
@@ -334,7 +334,7 @@ public class UniversityManagementSystem {
         StringBuilder newData = new StringBuilder();
         for (String line : data) {
             if (line.startsWith("Teacher")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String id = parts[1].substring(4).trim();
                 if (!id.equals(teacherId)) {
                     newData.append(line).append("\n");
@@ -378,7 +378,7 @@ public class UniversityManagementSystem {
         }
 
         // Append new course details to the data
-        savedData += newCourse.toString() + "\n";
+        savedData += newCourse + "\n";
 
         // Write the updated data back to the file
         saveData("Courses.txt", savedData.split("\n"));
@@ -399,7 +399,7 @@ public class UniversityManagementSystem {
         for (int i = 0; i < data.length; i++) {
             String line = data[i];
             if (line.startsWith("Course")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String id = parts[1].substring(4).trim();
                 if (id.equals(courseId)) {
                     // Course found, modify the line here if needed
@@ -461,7 +461,7 @@ public class UniversityManagementSystem {
         StringBuilder newData = new StringBuilder();
         for (String line : data) {
             if (line.startsWith("Course")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String id = parts[1].substring(4).trim();
                 if (!id.equals(courseId)) {
                     newData.append(line).append("\n");
@@ -632,7 +632,7 @@ public class UniversityManagementSystem {
         int gradeCount = 0;
         for (String line : data) {
             if (line.startsWith("Grade") && line.contains("SID=" + studentId)) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 for (String part : parts) {
                     if (part.trim().startsWith("Grade=")) {
                         double grade;
@@ -651,7 +651,7 @@ public class UniversityManagementSystem {
         }
 
         if (gradeCount > 0) {
-            double averageGrade = (double) totalGrades / gradeCount;
+            double averageGrade = totalGrades / gradeCount;
             System.out.println(gradeCount + (gradeCount > 1 ? " grade assignments" : " grade assignment") + " found for student with ID: " + studentId);
             System.out.println("Average grade is: " + averageGrade + "\n");
         } else {
@@ -664,7 +664,7 @@ public class UniversityManagementSystem {
         int gradeCount = 0;
         for (String line : data) {
             if (line.startsWith("Grade") && line.contains("CID=" + courseId)) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 for (String part : parts) {
                     if (part.trim().startsWith("Grade=")) {
                         double grade;
@@ -683,7 +683,7 @@ public class UniversityManagementSystem {
         }
 
         if (gradeCount > 0) {
-            double averageGrade = (double) totalGrades / gradeCount;
+            double averageGrade = totalGrades / gradeCount;
             System.out.println(gradeCount + (gradeCount > 1 ? " grade assignments" : " grade assignment") + " found for course with ID: " + courseId);
             System.out.println("Average grade is: " + averageGrade + "\n");
         } else {
@@ -695,7 +695,7 @@ public class UniversityManagementSystem {
         String[] lines = data.split("\n");
         for (String line : lines) {
             if (line.startsWith("Grade")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String sid = parts[1].substring(5).trim(); // Student ID
                 String cid = parts[2].substring(5).trim(); // Course ID
 
@@ -704,7 +704,7 @@ public class UniversityManagementSystem {
                 }
             }
             if (line.startsWith("Tuition")) {
-                String[] parts = line.split(":|,");
+                String[] parts = line.split("[:,]");
                 String tid = parts[1].substring(5).trim(); // Teacher ID
                 String cid = parts[2].substring(5).trim(); // Course ID
 
