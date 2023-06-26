@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UniversityManagementSystem {
     public Student findStudentById(String studentId, String data) {
@@ -89,20 +91,20 @@ public class UniversityManagementSystem {
 
         System.out.print("Student ID: ");
         String studentId = scanner.next();
-//        scanner.nextLine(); // Consume the newline character
         // Check if the student ID already exists
-        if (findStudentById(studentId, studentsData) != null) {
+        while (findStudentById(studentId, studentsData) != null) {
             System.out.println(YELLOW + "Student with the same ID already exists.\n" + RESET);
-            return;
+            System.out.print("Enter new student ID: ");
+            studentId = scanner.next();
         }
         System.out.print("Full name: ");
-        String studentName = scanner.next() + scanner.nextLine();
+        String studentName = validateName(scanner.next() + scanner.nextLine(), scanner);
         System.out.print("E-mail: ");
-        String studentEmail = scanner.next();
+        String studentEmail = validateEmail(scanner.next(), scanner);
         System.out.print("Phone number: ");
-        String studentPhone = scanner.next();
+        String studentPhone = validateNumber(scanner.next(), "phone", scanner);
         System.out.print("Semester: ");
-        String semester = scanner.next();
+        String semester = validateNumber(scanner.next(), "semester", scanner);
 
         Student newStudent = new Student(studentId, studentName, studentEmail, studentPhone, semester);
 
@@ -223,16 +225,25 @@ public class UniversityManagementSystem {
     }
 
     public void addTeacher(Scanner scanner) {
+        // Read existing data from the file
+        String teachersData = loadData("Teachers.txt");
+
         System.out.print("Teacher ID: ");
         String teacherId = scanner.next();
+        // Check if the teacher ID already exists
+        while (findStudentById(teacherId, teachersData) != null) {
+            System.out.println(YELLOW + "Teacher with the same ID already exists.\n" + RESET);
+            System.out.print("Enter new teacher ID: ");
+            teacherId = scanner.next();
+        }
         System.out.print("Full name: ");
-        String teacherName = scanner.next() + scanner.nextLine();
+        String teacherName = validateName(scanner.next() + scanner.nextLine(), scanner);
         System.out.print("E-mail: ");
-        String teacherEmail = scanner.next();
+        String teacherEmail = validateEmail(scanner.next(), scanner);
         System.out.print("Phone number: ");
-        String teacherPhone = scanner.next();
+        String teacherPhone = validateNumber(scanner.next(), "phone", scanner);
         System.out.print("Specialization: ");
-        String teacherSpecialization = scanner.next() + scanner.nextLine();
+        String teacherSpecialization = validateName(scanner.next() + scanner.nextLine(), scanner);
 
         Teacher newTeacher = new Teacher(teacherId, teacherName, teacherEmail, teacherPhone, teacherSpecialization);
 
@@ -753,6 +764,60 @@ public class UniversityManagementSystem {
         }
 
         return lines.toArray(new String[0]);
+    }
+
+    // Validation methods
+    public String validateName(String name, Scanner scanner) {
+        while (!isValidName(name)) {
+            System.out.print("Invalid name. Please enter a valid name: ");
+            name = scanner.next() + scanner.nextLine();
+        }
+
+        return name;
+    }
+
+    public boolean isValidName(String name) {
+        return name.matches("[A-Z][a-z]*");
+    }
+
+    public String validateEmail(String email, Scanner scanner) {
+        while (!isValidEmail(email)) {
+            System.out.print("Invalid email. Please enter a valid email: ");
+            email = scanner.next();
+        }
+        return email;
+    }
+
+    public boolean isValidEmail(String email) {
+        // Regular expression pattern for email validation
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[a-z]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public String validateNumber(String number, String type, Scanner scanner) {
+        while (!isValidNumber(number, type)) {
+            System.out.print("Invalid number. Please enter a valid number: ");
+            number = scanner.next();
+        }
+        return number;
+    }
+
+    public boolean isValidNumber(String number, String type) {
+        if (number.length() != 10 && type.equals("phone")) {
+            return false;
+        } else if (number.length() > 2 && type.equals("semester")) {
+            return false;
+        }
+
+        for (int i = 0; i < number.length(); i++) {
+            if (!Character.isDigit(number.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void dataInject() {
