@@ -10,10 +10,14 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
+        // Colorize console output
+        String CYAN = "\u001B[36m";
+        String RESET = "\u001B[0m";
+
+
         int choice = 0;
 
         while (choice != 6) {
-            System.out.println("Main menu.\n");
             System.out.println("1. Student");
             System.out.println("2. Teacher");
             System.out.println("3. Course");
@@ -22,15 +26,13 @@ public class Main {
             System.out.println("6. Exit");
             System.out.print("Choose an option: ");
 
-//            String studentData = ums.loadData("Students.txt");
-//            String teacherData = ums.loadData("Teachers.txt");
-//            String courseData = ums.loadData("Courses.txt");
-//            // ums.saveStudentGradesToFile(,"data.txt");
-//            // Print saved data
+            // Print saved data
 //            System.out.println("\n\n");
-//            System.out.println(studentData);
-//            System.out.println(teacherData);
-//            System.out.println(courseData);
+//            System.out.println(ums.loadData("Students.txt"));
+//            System.out.println(ums.loadData("Teachers.txt"));
+//            System.out.println(ums.loadData("Courses.txt"));
+//            System.out.println(ums.loadData("Grades.txt"));
+//            System.out.println(ums.loadData("Tuitions.txt"));
 
             int secondChoice = 0;
             try {
@@ -60,6 +62,7 @@ public class Main {
                                     System.out.print("Enter student ID: ");
                                     Student studentFoundById = ums.findStudentById(scanner.next(), ums.loadData("Students.txt"));
                                     ums.displayStudent(studentFoundById);
+                                    System.out.print("\n");
                                     break;
                                 case 5:
                                     System.out.print("Enter student ID: ");
@@ -71,14 +74,13 @@ public class Main {
                                     ums.addGradeToStudent(studentId, courseId, grade);
                                     break;
                                 case 6:
-                                    System.out.println("\nMain menu.\n");
                                     break;
                                 default:
-                                    System.out.println("Invalid choice. Please try again.");
+                                    System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
                                     break;
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("Invalid input. Please enter a number.\n");
+                            System.out.println(CYAN + "Invalid input. Please enter a number.\n" + RESET);
                             scanner.nextLine(); // Consume the invalid input to allow the user to enter again
                         }
                         break;
@@ -107,14 +109,13 @@ public class Main {
                                     ums.displayTeacher(teacherFoundById);
                                     break;
                                 case 5:
-                                    System.out.println("\nMain menu.\n");
                                     break;
                                 default:
-                                    System.out.println("Invalid choice. Please try again.");
+                                    System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
                                     break;
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("Invalid input. Please enter a number.\n");
+                            System.out.println(CYAN + "Invalid input. Please enter a number.\n" + RESET);
                             scanner.nextLine(); // Consume the invalid input to allow the user to enter again
                         }
                         break;
@@ -162,11 +163,11 @@ public class Main {
                                     System.out.println("\nMain menu.\n");
                                     break;
                                 default:
-                                    System.out.println("Invalid choice. Please try again.");
+                                    System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
                                     break;
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("Invalid input. Please enter a number.\n");
+                            System.out.println(CYAN + "Invalid input. Please enter a number.\n" + RESET);
                             scanner.nextLine(); // Consume the invalid input to allow the user to enter again
                         }
                         break;
@@ -176,18 +177,20 @@ public class Main {
                         ums.displayAverageGradeForStudent(studentId, ums.loadDataAsArray("Grades.txt"));
                         break;
                     case 5:
-
+                        System.out.print("Enter course ID: ");
+                        String courseId = scanner.next();
+                        ums.displayAverageGradeForCourse(courseId, ums.loadDataAsArray("Grades.txt"));
                         break;
                     case 6:
                         // Exit the program
                         System.out.println("Exiting the program.");
                         break;
                     default:
-                        System.out.println("Invalid choice. Please try again.");
+                        System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.\n");
+                System.out.println(CYAN + "Invalid input. Please enter a number.\n" + RESET);
                 scanner.nextLine(); // Consume the invalid input to allow the user to enter again
             }
         }

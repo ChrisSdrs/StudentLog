@@ -1,13 +1,9 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class Student {
     private String studentId;
     private String fullName;
     private String email;
     private String phoneNumber;
     private String semester;
-    private Map<Course, Double> grades;
 
     //  Constructor
     public Student(String studentId, String fullName, String email, String phoneNumber, String semester) {
@@ -16,7 +12,6 @@ public class Student {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.semester = semester;
-        this.grades = new HashMap<>();
     }
 
     @Override
@@ -63,21 +58,5 @@ public class Student {
 
     public void setSemester(String semester) {
         this.semester = semester;
-    }
-
-    public void setGrades(Map<Course, Double> grades) {
-        this.grades = grades;
-    }
-
-    public void addGrade(Course course, double grade) {
-        grades.put(course, grade);
-    }
-
-    public double getGradeForCourse(Course course) {
-        return grades.getOrDefault(course, 0.0);
-    }
-
-    public Map<Course, Double> getGrades() {
-        return grades;
     }
 }

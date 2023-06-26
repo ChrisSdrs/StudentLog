@@ -1,13 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Teacher {
     private String teacherId;
     private String fullName;
     private String email;
     private String phoneNumber;
     private String specialization;
-    private List<Course> courses;
 
     //  Constructor
     public Teacher(String teacherId, String fullName, String email, String phoneNumber, String specialization) {
@@ -16,7 +12,6 @@ public class Teacher {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.specialization = specialization;
-        this.courses = new ArrayList<>();
     }
 
     @Override
@@ -63,17 +58,5 @@ public class Teacher {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
-    public void addCourse(Course course) {
-        courses.add(course);
     }
 }
