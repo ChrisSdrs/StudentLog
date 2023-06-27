@@ -1,6 +1,10 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * The Main class represents the entry point of the University Management System program.
+ * It provides a command-line interface for interacting with the system and performing various operations.
+ */
 public class Main {
     public static void main(String[] args) {
         UniversityManagementSystem ums = new UniversityManagementSystem();
@@ -34,7 +38,7 @@ public class Main {
 //            System.out.println(ums.loadData("Grades.txt"));
 //            System.out.println(ums.loadData("Tuitions.txt"));
 
-            int secondChoice = 0;
+            int secondChoice;
             try {
                 choice = scanner.nextInt();
                 switch (choice) {

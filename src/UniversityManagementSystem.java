@@ -4,6 +4,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UniversityManagementSystem {
+
+    /**
+     * Finds a student in the provided data based on the student ID.
+     *
+     * @param studentId The ID of the student to find.
+     * @param data      The data containing student information.
+     * @return The found Student object, or null if not found.
+     */
     public Student findStudentById(String studentId, String data) {
         String[] lines = data.split("\n");
         for (String line : lines) {
@@ -25,6 +33,13 @@ public class UniversityManagementSystem {
         return null; // Student with the given ID not found
     }
 
+    /**
+     * Finds a teacher in the provided data based on the teacher ID.
+     *
+     * @param teacherId The ID of the teacher to find.
+     * @param data      The data containing teacher information.
+     * @return The found Teacher object, or null if not found.
+     */
     public Teacher findTeacherById(String teacherId, String data) {
         String[] lines = data.split("\n");
         for (String line : lines) {
@@ -46,6 +61,13 @@ public class UniversityManagementSystem {
         return null; // Teacher with the given ID not found
     }
 
+    /**
+     * Finds a course in the provided data based on the course ID.
+     *
+     * @param courseId The ID of the course to find.
+     * @param data     The data containing course information.
+     * @return The found Course object, or null if not found.
+     */
     public Course findCourseById(String courseId, String data) {
         String[] lines = data.split("\n");
         for (String line : lines) {
@@ -65,12 +87,11 @@ public class UniversityManagementSystem {
         return null; // Course with the given ID not found
     }
 
-    // Colorize console output
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-
+    /**
+     * Displays the details of a student.
+     *
+     * @param student The Student object to display.
+     */
     public void displayStudent(Student student) {
         if (student != null) {
             System.out.println("\nStudent Details:");
@@ -85,6 +106,11 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Adds a new student to the system.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void addStudent(Scanner scanner) {
         // Read existing data from the file
         String studentsData = loadData("Students.txt");
@@ -106,7 +132,12 @@ public class UniversityManagementSystem {
         System.out.print("Semester: ");
         String semester = validateNumber(scanner.next(), "semester", scanner);
 
-        Student newStudent = new Student(studentId, studentName, studentEmail, studentPhone, semester);
+        Student newStudent = new Student();
+        newStudent.setStudentId(studentId);
+        newStudent.setFullName(studentName);
+        newStudent.setEmail(studentEmail);
+        newStudent.setPhoneNumber(studentPhone);
+        newStudent.setSemester(semester);
 
         // Append new student details to the data
         studentsData += newStudent + "\n";
@@ -117,6 +148,11 @@ public class UniversityManagementSystem {
         System.out.println(GREEN + "Student added successfully.\n" + RESET);
     }
 
+    /**
+     * Edits the details of a student based on the student ID.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void editStudentById(Scanner scanner) {
         System.out.print("Enter the student ID to edit: ");
         String studentId = scanner.next();
@@ -174,7 +210,11 @@ public class UniversityManagementSystem {
         }
     }
 
-
+    /**
+     * Deletes a student from the system based on the student ID.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void deleteStudentById(Scanner scanner) {
         System.out.print("Enter the student ID to delete: ");
         String studentId = scanner.next();
@@ -194,6 +234,13 @@ public class UniversityManagementSystem {
         System.out.println(RED + "Student with ID " + studentId + " has been deleted.\n" + RESET);
     }
 
+    /**
+     * Deletes a student from the given data array based on the student ID.
+     *
+     * @param studentId The ID of the student to delete.
+     * @param data      The array containing the student data.
+     * @return An array with the student removed.
+     */
     public static String[] deleteStudent(String studentId, String[] data) {
         StringBuilder newData = new StringBuilder();
         for (String line : data) {
@@ -210,6 +257,11 @@ public class UniversityManagementSystem {
         return newData.toString().split("\n");
     }
 
+    /**
+     * Displays the details of a teacher.
+     *
+     * @param teacher The Teacher object to display.
+     */
     public void displayTeacher(Teacher teacher) {
         if (teacher != null) {
             System.out.println("Teacher Details:");
@@ -224,6 +276,11 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Adds a new teacher to the system.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void addTeacher(Scanner scanner) {
         // Read existing data from the file
         String teachersData = loadData("Teachers.txt");
@@ -231,7 +288,7 @@ public class UniversityManagementSystem {
         System.out.print("Teacher ID: ");
         String teacherId = scanner.next();
         // Check if the teacher ID already exists
-        while (findStudentById(teacherId, teachersData) != null) {
+        while (findTeacherById(teacherId, teachersData) != null) {
             System.out.println(YELLOW + "Teacher with the same ID already exists.\n" + RESET);
             System.out.print("Enter new teacher ID: ");
             teacherId = scanner.next();
@@ -245,7 +302,12 @@ public class UniversityManagementSystem {
         System.out.print("Specialization: ");
         String teacherSpecialization = validateName(scanner.next() + scanner.nextLine(), scanner);
 
-        Teacher newTeacher = new Teacher(teacherId, teacherName, teacherEmail, teacherPhone, teacherSpecialization);
+        Teacher newTeacher = new Teacher();
+        newTeacher.setTeacherId(teacherId);
+        newTeacher.setFullName(teacherName);
+        newTeacher.setEmail(teacherEmail);
+        newTeacher.setPhoneNumber(teacherPhone);
+        newTeacher.setSpecialization(teacherSpecialization);
 
         // Read existing data from the file
         String dataToAdd = loadData("Teachers.txt");
@@ -265,6 +327,11 @@ public class UniversityManagementSystem {
         System.out.println(GREEN + "Teacher added successfully.\n" + RESET);
     }
 
+    /**
+     * Edits the details of a teacher based on the teacher ID.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void editTeacherById(Scanner scanner) {
         System.out.print("Enter the teacher ID to edit: ");
         String teacherId = scanner.next();
@@ -322,6 +389,11 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Deletes a teacher from the system based on the teacher ID.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void deleteTeacherById(Scanner scanner) {
         System.out.print("Enter the teacher ID to delete: ");
         String teacherId = scanner.next();
@@ -341,6 +413,13 @@ public class UniversityManagementSystem {
         System.out.println(RED + "Teacher with ID " + teacherId + " has been deleted." + RESET);
     }
 
+    /**
+     * Deletes a teacher from the given data array based on the teacher ID.
+     *
+     * @param teacherId The ID of the teacher to delete.
+     * @param data      The array containing the teacher data.
+     * @return An array with the teacher removed.
+     */
     public static String[] deleteTeacher(String teacherId, String[] data) {
         StringBuilder newData = new StringBuilder();
         for (String line : data) {
@@ -357,6 +436,11 @@ public class UniversityManagementSystem {
         return newData.toString().split("\n");
     }
 
+    /**
+     * Displays the details of a course.
+     *
+     * @param course The Course object to display.
+     */
     public void displayCourse(Course course) {
         if (course != null) {
             System.out.println("\nCourse Details:");
@@ -369,6 +453,11 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Adds a new course to the system.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void addCourse(Scanner scanner) {
         System.out.print("Course ID: ");
         String courseId = scanner.next();
@@ -377,7 +466,10 @@ public class UniversityManagementSystem {
         System.out.print("Semester: ");
         String courseSemester = scanner.next();
 
-        Course newCourse = new Course(courseId, courseTitle, courseSemester);
+        Course newCourse = new Course();
+        newCourse.setCourseId(courseId);
+        newCourse.setTitle(courseTitle);
+        newCourse.setSemester(courseSemester);
 
         // Read existing data from the file
         String savedData = loadData("Courses.txt");
@@ -397,6 +489,11 @@ public class UniversityManagementSystem {
         System.out.println(GREEN + "Course added successfully.\n" + RESET);
     }
 
+    /**
+     * Edits the details of a course based on the course ID.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void editCourseById(Scanner scanner) {
         System.out.print("Enter the course ID to edit: ");
         String courseId = scanner.next();
@@ -446,6 +543,11 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Deletes a course from the system based on the course ID.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     public void deleteCourseById(Scanner scanner) {
         System.out.print("Enter the course ID to delete: ");
         String courseId = scanner.next();
@@ -468,6 +570,13 @@ public class UniversityManagementSystem {
         System.out.println(RED + "Course with ID " + courseId + " has been deleted.\n" + RESET);
     }
 
+    /**
+     * Deletes a course from the given data array based on the course ID.
+     *
+     * @param courseId The ID of the course to delete.
+     * @param data     The array containing the course data.
+     * @return An array with the course removed.
+     */
     public static String[] deleteCourse(String courseId, String[] data) {
         StringBuilder newData = new StringBuilder();
         for (String line : data) {
@@ -484,6 +593,12 @@ public class UniversityManagementSystem {
         return newData.toString().split("\n");
     }
 
+    /**
+     * Assigns a course to a student.
+     *
+     * @param studentId The ID of the student.
+     * @param courseId  The ID of the course.
+     */
     public void assignCourseToStudent(String studentId, String courseId) {
         /// Check if the student exists
         Student student = findStudentById(studentId, loadData("Students.txt"));
@@ -517,6 +632,12 @@ public class UniversityManagementSystem {
         System.out.println(GREEN + "Course assignment saved successfully.\n" + RESET);
     }
 
+    /**
+     * Assigns a course to a teacher.
+     *
+     * @param teacherId The ID of the teacher.
+     * @param courseId  The ID of the course.
+     */
     public void assignCourseToTeacher(String teacherId, String courseId) {
         /// Check if the student exists
         Teacher teacher = findTeacherById(teacherId, loadData("Teachers.txt"));
@@ -550,6 +671,12 @@ public class UniversityManagementSystem {
         System.out.println(GREEN + "Course assignment saved successfully.\n" + RESET);
     }
 
+    /**
+     * Deletes tuitions from the "Tuitions.txt" file based on the specified ID.
+     *
+     * @param id          The ID (teacher ID or course ID) to delete tuitions for.
+     * @param isTeacherId A flag indicating whether the ID corresponds to a teacher.
+     */
     public void deleteTuitionsById(String id, boolean isTeacherId) {
         // Load existing tuitions data
         String[] tuitionsData = loadDataAsArray("Tuitions.txt");
@@ -572,6 +699,13 @@ public class UniversityManagementSystem {
         saveData("Tuitions.txt", updatedData.toArray(new String[0]));
     }
 
+    /**
+     * Adds a grade for a student in a course.
+     *
+     * @param studentId The ID of the student.
+     * @param courseId  The ID of the course.
+     * @param grade     The grade to be added.
+     */
     public void addGradeToStudent(String studentId, String courseId, double grade) {
         // Check if the student exists
         Student student = findStudentById(studentId, loadData("Students.txt"));
@@ -615,6 +749,12 @@ public class UniversityManagementSystem {
         saveData("Grades.txt", gradesData);
     }
 
+    /**
+     * Deletes grades from the "Grades.txt" file based on the specified ID.
+     *
+     * @param id          The ID (student ID or course ID) to delete grades for.
+     * @param isStudentId A flag indicating whether the ID corresponds to a student.
+     */
     public void deleteGradesById(String id, boolean isStudentId) {
         // Load existing grades data
         String[] gradesData = loadDataAsArray("Grades.txt");
@@ -638,6 +778,12 @@ public class UniversityManagementSystem {
 
     }
 
+    /**
+     * Displays the average grade for a student.
+     *
+     * @param studentId The ID of the student.
+     * @param data      The array containing the grade data.
+     */
     public void displayAverageGradeForStudent(String studentId, String[] data) {
         double totalGrades = 0;
         int gradeCount = 0;
@@ -670,6 +816,12 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Displays the average grade for a course.
+     *
+     * @param courseId The ID of the course.
+     * @param data     The array containing the grade data.
+     */
     public void displayAverageGradeForCourse(String courseId, String[] data) {
         double totalGrades = 0;
         int gradeCount = 0;
@@ -702,6 +854,14 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Checks if an assignment (grade or tuition) exists for the specified person ID and course ID.
+     *
+     * @param personId The ID of the person (student ID or teacher ID).
+     * @param courseId The ID of the course.
+     * @param data     The data to search for the assignment.
+     * @return {@code true} if the assignment exists, {@code false} otherwise.
+     */
     public boolean assignmentExists(String personId, String courseId, String data) {
         String[] lines = data.split("\n");
         for (String line : lines) {
@@ -727,6 +887,12 @@ public class UniversityManagementSystem {
         return false; // Assignment not found for the specified student ID and course ID
     }
 
+    /**
+     * Saves the provided data to a file with the specified filename.
+     *
+     * @param filename the name of the file to save the data to
+     * @param data     the array of data to be saved
+     */
     public void saveData(String filename, String[] data) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (String line : data) {
@@ -738,6 +904,12 @@ public class UniversityManagementSystem {
         }
     }
 
+    /**
+     * Loads the data from the file with the specified filename.
+     *
+     * @param filename the name of the file to load the data from
+     * @return the loaded data as a string
+     */
     public String loadData(String filename) {
         StringBuilder data = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -751,6 +923,12 @@ public class UniversityManagementSystem {
         return data.toString();
     }
 
+    /**
+     * Loads the data from the file with the specified filename into an array of strings.
+     *
+     * @param filename the name of the file to load the data from
+     * @return the loaded data as an array of strings
+     */
     public String[] loadDataAsArray(String filename) {
         List<String> lines = new ArrayList<>();
 
@@ -766,7 +944,17 @@ public class UniversityManagementSystem {
         return lines.toArray(new String[0]);
     }
 
-    // Validation methods
+    /*
+     *   Validation methods
+     */
+
+    /**
+     * Validates a name input and prompts the user to enter a valid name if it is invalid.
+     *
+     * @param name    the name to validate
+     * @param scanner the scanner object used for user input
+     * @return the validated name
+     */
     public String validateName(String name, Scanner scanner) {
         while (!isValidName(name)) {
             System.out.print("Invalid name. Please enter a valid name: ");
@@ -776,10 +964,23 @@ public class UniversityManagementSystem {
         return name;
     }
 
+    /**
+     * Checks if a name is valid.
+     *
+     * @param name the name to check
+     * @return true if the name is valid, false otherwise
+     */
     public boolean isValidName(String name) {
-        return name.matches("[A-Z][a-z]*");
+        return name.matches("[A-Z][a-z ]+[A-Z]?[a-z]*");
     }
 
+    /**
+     * Validates an email input and prompts the user to enter a valid email if it is invalid.
+     *
+     * @param email   the email to validate
+     * @param scanner the scanner object used for user input
+     * @return the validated email
+     */
     public String validateEmail(String email, Scanner scanner) {
         while (!isValidEmail(email)) {
             System.out.print("Invalid email. Please enter a valid email: ");
@@ -788,6 +989,12 @@ public class UniversityManagementSystem {
         return email;
     }
 
+    /**
+     * Checks if an email is valid.
+     *
+     * @param email the email to check
+     * @return true if the email is valid, false otherwise
+     */
     public boolean isValidEmail(String email) {
         // Regular expression pattern for email validation
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[a-z]+$";
@@ -796,6 +1003,14 @@ public class UniversityManagementSystem {
         return matcher.matches();
     }
 
+    /**
+     * Validates a number input and prompts the user to enter a valid number if it is invalid.
+     *
+     * @param number  the number to validate
+     * @param type    the type of the number (e.g., "phone", "semester")
+     * @param scanner the scanner object used for user input
+     * @return the validated number
+     */
     public String validateNumber(String number, String type, Scanner scanner) {
         while (!isValidNumber(number, type)) {
             System.out.print("Invalid number. Please enter a valid number: ");
@@ -804,6 +1019,13 @@ public class UniversityManagementSystem {
         return number;
     }
 
+    /**
+     * Checks if a number is valid.
+     *
+     * @param number the number to check
+     * @param type   the type of the number (e.g., "phone", "semester")
+     * @return true if the number is valid, false otherwise
+     */
     public boolean isValidNumber(String number, String type) {
         if (number.length() != 10 && type.equals("phone")) {
             return false;
@@ -820,6 +1042,9 @@ public class UniversityManagementSystem {
         return true;
     }
 
+    /**
+     * Injects sample data for students, teachers, courses, grades, and tuitions into the system.
+     */
     public void dataInject() {
         // Creating sample data for students
         Student student1 = new Student("1", "John Doe", "john.doe@example.com", "1234567890", "3");
@@ -885,4 +1110,9 @@ public class UniversityManagementSystem {
         saveData("Tuitions.txt", tuitionData);
     }
 
+    // Colorize console output
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
 }
