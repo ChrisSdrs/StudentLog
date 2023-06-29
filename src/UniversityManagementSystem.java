@@ -117,7 +117,7 @@ public class UniversityManagementSystem {
         String studentsData = loadData("Students.txt");
 
         System.out.print("Student ID: ");
-        String studentId = scanner.next();
+        String studentId = validateNumber(scanner.next(), "", scanner);
         // Check if the student ID already exists
         while (findStudentById(studentId, studentsData) != null) {
             System.out.println(YELLOW + "Student with the same ID already exists.\n" + RESET);
@@ -287,7 +287,7 @@ public class UniversityManagementSystem {
         String teachersData = loadData("Teachers.txt");
 
         System.out.print("Teacher ID: ");
-        String teacherId = scanner.next();
+        String teacherId = validateNumber(scanner.next(), "", scanner);
         // Check if the teacher ID already exists
         while (findTeacherById(teacherId, teachersData) != null) {
             System.out.println(YELLOW + "Teacher with the same ID already exists.\n" + RESET);
@@ -461,11 +461,11 @@ public class UniversityManagementSystem {
      */
     public void addCourse(Scanner scanner) {
         System.out.print("Course ID: ");
-        String courseId = scanner.next();
+        String courseId = validateNumber(scanner.next(), "", scanner);
         System.out.print("Title: ");
         String courseTitle = scanner.next() + scanner.nextLine();
         System.out.print("Semester: ");
-        String courseSemester = scanner.next();
+        String courseSemester = validateNumber(scanner.next(), "semester", scanner);
 
         Course newCourse = new Course();
         newCourse.setCourseId(courseId);
@@ -794,13 +794,13 @@ public class UniversityManagementSystem {
                 for (String part : parts) {
                     if (part.trim().startsWith("Grade=")) {
                         double grade;
-                            String gradeStr = part.substring(7).trim();
-                            if (gradeStr.equals("")){
-                                break;
-                            }
-                            grade = Double.parseDouble(gradeStr);
-                            totalGrades += grade;
-                            gradeCount++;
+                        String gradeStr = part.substring(7).trim();
+                        if (gradeStr.equals("")) {
+                            break;
+                        }
+                        grade = Double.parseDouble(gradeStr);
+                        totalGrades += grade;
+                        gradeCount++;
                         break;
                     }
                 }
@@ -833,7 +833,7 @@ public class UniversityManagementSystem {
                     if (part.trim().startsWith("Grade=")) {
                         double grade;
                         String gradeStr = part.substring(7).trim();
-                        if (gradeStr.equals("")){
+                        if (gradeStr.equals("")) {
                             break;
                         }
                         grade = Double.parseDouble(gradeStr);
