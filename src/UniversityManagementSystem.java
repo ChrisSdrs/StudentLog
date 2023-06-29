@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -793,14 +794,13 @@ public class UniversityManagementSystem {
                 for (String part : parts) {
                     if (part.trim().startsWith("Grade=")) {
                         double grade;
-                        try {
-                            grade = Double.parseDouble(part.substring(7).trim());
+                            String gradeStr = part.substring(7).trim();
+                            if (gradeStr.equals("")){
+                                break;
+                            }
+                            grade = Double.parseDouble(gradeStr);
                             totalGrades += grade;
                             gradeCount++;
-                        } catch (NumberFormatException e) {
-                            System.out.println("Error parsing grade: " + e.getMessage());
-                            e.printStackTrace();
-                        }
                         break;
                     }
                 }
@@ -808,7 +808,8 @@ public class UniversityManagementSystem {
         }
 
         if (gradeCount > 0) {
-            double averageGrade = totalGrades / gradeCount;
+            DecimalFormat decimalFormat = new DecimalFormat("#.#");
+            String averageGrade = decimalFormat.format(totalGrades / gradeCount);
             System.out.println(gradeCount + (gradeCount > 1 ? " grade assignments" : " grade assignment") + " found for student with ID: " + studentId);
             System.out.println("Average grade is: " + averageGrade + "\n");
         } else {
@@ -831,14 +832,13 @@ public class UniversityManagementSystem {
                 for (String part : parts) {
                     if (part.trim().startsWith("Grade=")) {
                         double grade;
-                        try {
-                            grade = Double.parseDouble(part.substring(7).trim());
-                            totalGrades += grade;
-                            gradeCount++;
-                        } catch (NumberFormatException e) {
-                            System.out.println("Error parsing grade: " + e.getMessage());
-                            e.printStackTrace();
+                        String gradeStr = part.substring(7).trim();
+                        if (gradeStr.equals("")){
+                            break;
                         }
+                        grade = Double.parseDouble(gradeStr);
+                        totalGrades += grade;
+                        gradeCount++;
                         break;
                     }
                 }
@@ -846,7 +846,8 @@ public class UniversityManagementSystem {
         }
 
         if (gradeCount > 0) {
-            double averageGrade = totalGrades / gradeCount;
+            DecimalFormat decimalFormat = new DecimalFormat("#.#");
+            String averageGrade = decimalFormat.format(totalGrades / gradeCount);
             System.out.println(gradeCount + (gradeCount > 1 ? " grade assignments" : " grade assignment") + " found for course with ID: " + courseId);
             System.out.println("Average grade is: " + averageGrade + "\n");
         } else {

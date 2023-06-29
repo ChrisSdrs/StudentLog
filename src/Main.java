@@ -75,9 +75,15 @@ public class Main {
                                     String courseId = scanner.next();
                                     System.out.print("Enter grade: ");
                                     double grade = scanner.nextDouble();
+                                    while (grade < 0 || grade > 10 || Math.floor(grade * 10) != grade * 10) {
+                                        System.out.println("Grade must have value between 0 and 10 and contain one decimal.\n");
+                                        System.out.print("Enter new grade: ");
+                                        grade = scanner.nextDouble();
+                                    }
                                     ums.addGradeToStudent(studentId, courseId, grade);
                                     break;
                                 case 6:
+                                    System.out.println("\n");
                                     break;
                                 default:
                                     System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
@@ -113,6 +119,7 @@ public class Main {
                                     ums.displayTeacher(teacherFoundById);
                                     break;
                                 case 5:
+                                    System.out.println("\n");
                                     break;
                                 default:
                                     System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
@@ -164,7 +171,7 @@ public class Main {
                                     ums.assignCourseToTeacher(teacherId, teacherCourseId);
                                     break;
                                 case 7:
-                                    System.out.println("\nMain menu.\n");
+                                    System.out.println("\n");
                                     break;
                                 default:
                                     System.out.println(CYAN + "Invalid choice. Please try again.\n" + RESET);
