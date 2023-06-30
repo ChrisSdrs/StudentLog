@@ -4,6 +4,7 @@ import java.util.Scanner;
 /**
  * The Main class represents the entry point of the University Management System program.
  * It provides a command-line interface for interacting with the system and performing various operations.
+ *
  * @author Christos Sideris
  * @author Vasilis Nikolakopoulos
  * @author Fotini Sofiou
@@ -13,12 +14,13 @@ public class Main {
         UniversityManagementSystem ums = new UniversityManagementSystem();
 
         // Inject some initial data into the contact management system
-        ums.dataInject();
+//        ums.dataInject();
 
         Scanner scanner = new Scanner(System.in);
 
         // Colorize console output
         String CYAN = "\u001B[36m";
+        String YELLOW = "\u001B[33m";
         String RESET = "\u001B[0m";
 
 
@@ -79,7 +81,7 @@ public class Main {
                                     System.out.print("Enter grade: ");
                                     double grade = scanner.nextDouble();
                                     while (grade < 0 || grade > 10 || Math.floor(grade * 10) != grade * 10) {
-                                        System.out.println("Grade must have value between 0 and 10 and contain one decimal.\n");
+                                        System.out.println(YELLOW + "Grade must have value between 0 and 10 and contain one decimal." + RESET);
                                         System.out.print("Enter new grade: ");
                                         grade = scanner.nextDouble();
                                     }

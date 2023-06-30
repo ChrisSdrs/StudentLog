@@ -120,7 +120,7 @@ public class UniversityManagementSystem {
         String studentId = validateNumber(scanner.next(), "", scanner);
         // Check if the student ID already exists
         while (findStudentById(studentId, studentsData) != null) {
-            System.out.println(YELLOW + "Student with the same ID already exists.\n" + RESET);
+            System.out.println(YELLOW + "Student with the same ID already exists." + RESET);
             System.out.print("Enter new student ID: ");
             studentId = scanner.next();
         }
@@ -290,7 +290,7 @@ public class UniversityManagementSystem {
         String teacherId = validateNumber(scanner.next(), "", scanner);
         // Check if the teacher ID already exists
         while (findTeacherById(teacherId, teachersData) != null) {
-            System.out.println(YELLOW + "Teacher with the same ID already exists.\n" + RESET);
+            System.out.println(YELLOW + "Teacher with the same ID already exists." + RESET);
             System.out.print("Enter new teacher ID: ");
             teacherId = scanner.next();
         }
@@ -312,12 +312,6 @@ public class UniversityManagementSystem {
 
         // Read existing data from the file
         String dataToAdd = loadData("Teachers.txt");
-
-        // Check if the teacher ID already exists
-        if (findTeacherById(newTeacher.getTeacherId(), dataToAdd) != null) {
-            System.out.println(YELLOW + "Teacher with the same ID already exists.\n" + RESET);
-            return;
-        }
 
         // Append new teacher details to the data
         dataToAdd += newTeacher + "\n";
@@ -477,7 +471,7 @@ public class UniversityManagementSystem {
 
         // Check if the course ID already exists
         if (findCourseById(newCourse.getCourseId(), savedData) != null) {
-            System.out.println(YELLOW + "Course with the same ID already exists.\n" + RESET);
+            System.out.println(YELLOW + "Course with the same ID already exists." + RESET);
             return;
         }
 
