@@ -4,6 +4,9 @@ import java.util.Scanner;
 /**
  * The Main class represents the entry point of the University Management System program.
  * It provides a command-line interface for interacting with the system and performing various operations.
+ * @author Christos Sideris
+ * @author Vasilis Nikolakopoulos
+ * @author Fotini Sofiou
  */
 public class Main {
     public static void main(String[] args) {

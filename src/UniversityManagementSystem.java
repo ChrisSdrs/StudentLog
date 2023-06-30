@@ -179,16 +179,16 @@ public class UniversityManagementSystem {
                     System.out.println("Enter student details: ");
                     System.out.println("Full name: " + name);
                     System.out.print("Set new full name: ");
-                    String newStudentName = scanner.next() + scanner.nextLine();
+                    String newStudentName = validateName(scanner.next() + scanner.nextLine(), scanner);
                     System.out.println("E-mail: " + email);
                     System.out.print("Set new e-mail: ");
-                    String newStudentEmail = scanner.next();
+                    String newStudentEmail = validateEmail(scanner.next(), scanner);
                     System.out.println("Phone number: " + phoneNumber);
                     System.out.print("Set new phone number: ");
-                    String newStudentPhone = scanner.next();
+                    String newStudentPhone = validateNumber(scanner.next(), "phone", scanner);
                     System.out.println("Semester: " + semester);
                     System.out.print("Set new semester: ");
-                    String newSemester = scanner.next();
+                    String newSemester = validateNumber(scanner.next(), "semester", scanner);
 
                     // Create the modified student line
                     Student editedStudent = new Student(studentId, newStudentName, newStudentEmail, newStudentPhone, newSemester);
@@ -358,16 +358,16 @@ public class UniversityManagementSystem {
                     System.out.println("Enter teacher details: ");
                     System.out.println("Full name: " + name);
                     System.out.print("Set new full name: ");
-                    String newTeacherName = scanner.next() + scanner.nextLine();
+                    String newTeacherName = validateName(scanner.next() + scanner.nextLine(), scanner);
                     System.out.println("E-mail: " + email);
                     System.out.print("Set new e-mail: ");
-                    String newTeacherEmail = scanner.next();
+                    String newTeacherEmail = validateEmail(scanner.next(), scanner);
                     System.out.println("Phone number: " + phoneNumber);
                     System.out.print("Set new phone number: ");
-                    String newTeacherPhone = scanner.next();
+                    String newTeacherPhone = validateNumber(scanner.next(), "phone", scanner);
                     System.out.println("Specialization: " + specialization);
                     System.out.print("Set new specialization: ");
-                    String newSpecialization = scanner.next() + scanner.nextLine();
+                    String newSpecialization = validateName(scanner.next() + scanner.nextLine(), scanner);
 
                     // Create the modified teacher line
                     Teacher editedTeacher = new Teacher(teacherId, newTeacherName, newTeacherEmail, newTeacherPhone, newSpecialization);
@@ -521,7 +521,7 @@ public class UniversityManagementSystem {
                     String newTitle = scanner.next() + scanner.nextLine();
                     System.out.println("Semester: " + semester);
                     System.out.print("Set new semester: ");
-                    String newSemester = scanner.next();
+                    String newSemester = validateNumber(scanner.next(), "semester", scanner);
 
                     // Create the modified course line
                     Course editedCourse = new Course(courseId, newTitle, newSemester);
