@@ -454,8 +454,17 @@ public class UniversityManagementSystem {
      * @param scanner The Scanner object for user input.
      */
     public void addCourse(Scanner scanner) {
+        // Read existing data from the file
+        String coursesData = loadData("Courses.txt");
+
         System.out.print("Course ID: ");
         String courseId = validateNumber(scanner.next(), "", scanner);
+        // Check if the course ID already exists
+        while (findCourseById(courseId, coursesData) != null) {
+            System.out.println(YELLOW + "Course with the same ID already exists." + RESET);
+            System.out.print("Enter new course ID: ");
+            courseId = scanner.next();
+        }
         System.out.print("Title: ");
         String courseTitle = scanner.next() + scanner.nextLine();
         System.out.print("Semester: ");
@@ -466,20 +475,11 @@ public class UniversityManagementSystem {
         newCourse.setTitle(courseTitle);
         newCourse.setSemester(courseSemester);
 
-        // Read existing data from the file
-        String savedData = loadData("Courses.txt");
-
-        // Check if the course ID already exists
-        if (findCourseById(newCourse.getCourseId(), savedData) != null) {
-            System.out.println(YELLOW + "Course with the same ID already exists." + RESET);
-            return;
-        }
-
         // Append new course details to the data
-        savedData += newCourse + "\n";
+        coursesData += newCourse + "\n";
 
         // Write the updated data back to the file
-        saveData("Courses.txt", savedData.split("\n"));
+        saveData("Courses.txt", coursesData.split("\n"));
 
         System.out.println(GREEN + "Course added successfully.\n" + RESET);
     }
